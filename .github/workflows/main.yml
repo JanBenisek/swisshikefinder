@@ -6,6 +6,27 @@ on:
       - main
 
 jobs:
+  push-store-image:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './Store'
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@main
+
+      - name: 'Login to GitHub Container Registry'
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+
+      - name: 'Build Inventory Image'
+        run: |
+          docker build -t ghcr.io/janbenisek/swiss-hike-finder:latest .
+          docker push ghcr.io/janbenisek/swiss-hike-finder:latest
+
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
