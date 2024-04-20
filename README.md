@@ -1,14 +1,16 @@
 # Swiss Hike Finder
-
+Playground to learn Go and find awesome hikes.
 
 ## Handy commands
 
-- run with  `go build -o ./swisshikerbin && ./swisshikerbin`
-- alive at http://localhost:8080
-- `docker build -t swiss-hike-finder:latest .`
-  - or detached `docker run -d -p 8080:8080 swiss-hike-finder:latest`
-- `docker run -it --entrypoint /bin/bash swiss-hike-finder:latest`
-- `docker run -p 8080:8080 -e "HIKE_API_KEY=XXX" swiss-hike-finder:latest
+```shell
+go build -o ./swisshikerbin && ./swisshikerbin
+docker build -t swiss-hike-finder:latest .
+docker compose up web
+docker stop $(docker ps -a -q)
+docker run -it --entrypoint /bin/bash swiss-hike-finder:latest
+docker run -p 8080:8080 -e "HIKE_API_KEY=XXX" swiss-hike-finder:latest
+```
 
 ## Readings
 
