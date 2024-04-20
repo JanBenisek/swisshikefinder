@@ -22,7 +22,9 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /swiss-hiker-bin
 
 # WORKDIR /
 # COPY --from=build-stage /swiss-hiker-bin /swiss-hiker-bin
-# EXPOSE 3000
+
 
 ENTRYPOINT ["/swiss-hiker-bin"]
 # CMD ["swiss-hiker-bin"]
+
+EXPOSE 8080

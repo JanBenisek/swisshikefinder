@@ -123,9 +123,9 @@ func main() {
 	// 	log.Println("Error loading .env file")
 	// }
 
-	port := os.Getenv("PORT") // will be available at http://localhost:3000
+	port := os.Getenv("PORT") // will be available at http://localhost:8080
 	if port == "" {
-		port = "3000"
+		port = "8080" //nasty
 	}
 
 	apiKey := os.Getenv("HIKE_API_KEY")
