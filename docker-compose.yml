@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    environment:
+      PORT: ${PORT}
+      HIKE_API_KEY: ${HIKE_API_KEY}
+    restart: always
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+    ports:
+      - 3000:3000

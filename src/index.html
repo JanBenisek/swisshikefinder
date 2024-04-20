@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Swiss Hike Finder</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+    <main>
+        <header>
+          <a class="logo" href="/">Swiss Hike Finder</a>
+          <form action="/search" method="GET">
+            <input
+              autofocus
+              class="search-input"
+              value="{{ .Query }}"
+              placeholder="Enter a hike"
+              type="search"
+              name="q"
+            />
+          </form>
+          <a
+            href="https://developer.myswitzerland.io/apis"
+            class="button mysw-button"
+            >View API</a
+          >
+        </header>
+        <section class="container">
+            <div class="result-count">
+                {{ if .Results }}
+                  {{ if (gt .Results.Meta.Page.TotalPages 0)}}
+                  <p>
+                    About <strong>{{ .Results.Meta.Page.TotalPages }}</strong> results were
+                    found. You are on page <strong>{{ .CurrentPage }}</strong> of
+                    <strong> {{ .TotalPages }}</strong>.
+                  </p>
+                  {{ else if (ne .Query "") and (eq .Results.Meta.Page.TotalPages 0) }}
+                  <p>
+                    No results found for your query: <strong>{{ .Query }}</strong>.
+                  </p>
+                  {{ end }}
+                {{ end }}
+                </div>
+            <ul class="search-results">
+              {{ range.Results.Data }}
+              <li class="hikes">
+                <div>
+                  <a target="_blank" rel="noreferrer noopener" href="{{.URL}}">
+                    <h3 class="name">{{.Name }}</h3>
+                  </a>
+                  <p class="abstract">{{ .Abstract }}</p>
+                  <div class="metadata">
+                    <p class="identifier">{{ .Identifier }}</p>
+                  </div>
+                </div>
+                <img class="hike-image" src="{{ .Photo }}" />
+              </li>
+              {{ end }}
+            </ul>
+            <div class="pagination">
+            {{ if . }}
+                {{ if (gt .NextPage 2) }}
+                <a
+                href="/search?q={{ .Query }}&page={{ .PreviousPage }}"
+                class="button previous-page"
+                >Previous</a
+                >
+                {{ end }}
+                {{ if (ne .IsLastPage true) }}
+                <a
+                href="/search?q={{ .Query }}&page={{ .NextPage }}"
+                class="button next-page"
+                >Next</a
+                >
+                {{ end }}
+            {{ end }}
+            </div>
+          </section>
+      </main>
+</body>
+</html>
