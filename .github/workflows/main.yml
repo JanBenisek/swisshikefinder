@@ -8,9 +8,9 @@ on:
 jobs:
   push-store-image:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: './src'
+    # defaults:
+    #   run:
+    #     working-directory: './src'
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@main

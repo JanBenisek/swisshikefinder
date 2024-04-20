@@ -1,7 +1,9 @@
 # Specifies a parent image
 # FROM golang:1.20.7-bullseye AS builder
 FROM golang:1.20.7-bullseye
+LABEL org.opencontainers.image.source="https://github.com/janbenisek/swisshikefinder"
  
+
 # Creates an app directory to hold your app’s source code
 WORKDIR /app
  
