@@ -14,3 +14,4 @@
 - https://freshman.tech/web-development-with-go/
 - https://stackoverflow.com/questions/47270595/how-to-parse-json-string-to-struct
 - https://docs.docker.com/language/golang/build-images/
+- https://dev.to/willvelida/pushing-container-images-to-github-container-registry-with-github-actions-1m6b

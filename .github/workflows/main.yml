@@ -8,6 +8,7 @@ on:
 jobs:
   push-store-image:
     runs-on: ubuntu-latest
+    permissions: write-all
     # defaults:
     #   run:
     #     working-directory: './src'
