@@ -6,6 +6,7 @@
 - `docker run swiss-hike-finder:latest`
   - or detached `docker run -d -p 8080:8080 swiss-hike-finder:latest`
 - `docker run -it --entrypoint /bin/bash swisshikefinder-web`
+- test
 
 ## Readings
 
