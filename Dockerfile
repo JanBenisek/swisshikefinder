@@ -14,17 +14,15 @@ COPY /src .
 RUN go mod download
 
 # Build the Go application into a binary
-RUN CGO_ENABLED=0 GOOS=linux go build -o /swiss-hiker-bin
+RUN CGO_ENABLED=0 GOOS=linux go build -o swiss-hiker-bin .
 
 # Use a lightweight Alpine image as the final base image
-# FROM alpine:latest AS build-release-stage
-# FROM gcr.io/distroless/base-debian11 AS build-release-stage
+# FROM alpine:latest AS runtime
 
-# WORKDIR /
-# COPY --from=build-stage /swiss-hiker-bin /swiss-hiker-bin
-
-
-ENTRYPOINT ["/swiss-hiker-bin"]
-# CMD ["swiss-hiker-bin"]
+# WORKDIR /app
+# COPY --from=builder /swiss-hiker-bin /swiss-hiker-bin
 
 EXPOSE 8080
+
+# ENTRYPOINT ["/swiss-hiker-bin"]
+CMD ["./swiss-hiker-bin"]

@@ -1,11 +1,14 @@
 # Swiss Hike Finder
 
+
+## Handy commands
+
 - run with  `go build -o ./swisshikerbin && ./swisshikerbin`
 - alive at http://localhost:8080
 - `docker build -t swiss-hike-finder:latest .`
-- `docker run swiss-hike-finder:latest`
   - or detached `docker run -d -p 8080:8080 swiss-hike-finder:latest`
-- `docker run -it --entrypoint /bin/bash swisshikefinder-web`
+- `docker run -it --entrypoint /bin/bash swiss-hike-finder:latest`
+- `docker run -p 8080:8080 -e "HIKE_API_KEY=XXX" swiss-hike-finder:latest
 
 ## Readings
 
