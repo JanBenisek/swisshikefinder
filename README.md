@@ -1,4 +1,5 @@
 # Swiss Hike Finder
+
 Playground to learn Go and find awesome hikes.
 
 ## Handy commands
@@ -18,3 +19,4 @@ docker run -p 8080:8080 -e "HIKE_API_KEY=XXX" swiss-hike-finder:latest
 - https://stackoverflow.com/questions/47270595/how-to-parse-json-string-to-struct
 - https://docs.docker.com/language/golang/build-images/
 - https://dev.to/willvelida/pushing-container-images-to-github-container-registry-with-github-actions-1m6b
+- https://dev.to/francescoxx/build-a-crud-rest-api-in-go-using-mux-postgres-docker-and-docker-compose-2a75

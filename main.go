@@ -2,6 +2,7 @@ package main //belongs to the main package
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http" // webserver
@@ -75,8 +76,8 @@ func searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
 		}
 
 		// to debug
-		// resultString := fmt.Sprintf("%+v", results)
-		// fmt.Println("RESULT STRING: ", resultString)
+		resultString := fmt.Sprintf("%+v", results)
+		fmt.Println("RESULT STRING: ", resultString)
 
 		nextPage, err := strconv.Atoi(page)
 		if err != nil {
