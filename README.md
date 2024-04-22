@@ -2,16 +2,13 @@
 
 Playground to learn Go and find awesome hikes.
 
-## Handy commands
+## Next Steps
 
-```shell
-go build -o ./swisshikerbin && ./swisshikerbin
-docker build -t swiss-hike-finder:latest .
-docker compose up web
-docker stop $(docker ps -a -q)
-docker run -it --entrypoint /bin/bash swiss-hike-finder:latest
-docker run -p 8080:8080 -e "HIKE_API_KEY=XXX" swiss-hike-finder:latest
-```
+- slightly prettier UI
+- clean up code and review structure
+- add logging
+- buy domain and switch
+- deployment - droplet with docker compose?
 
 ## Readings
 
