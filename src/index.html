@@ -16,7 +16,7 @@
               autofocus
               class="search-input"
               value="{{ .Query }}"
-              placeholder="Enter a hike"
+              placeholder="What would you like to discover?"
               type="search"
               name="q"
             />
@@ -52,7 +52,7 @@
                   </a>
                   <p class="abstract">{{ .Abstract }}</p>
                   <div class="metadata">
-                    <p class="identifier">{{ .Identifier }}</p>
+                    <p class="type">{{ .Type }}</p>
                   </div>
                 </div>
                 <img class="hike-image" src="{{ .Photo }}" />

@@ -1,8 +1,8 @@
 version: "3.8"
 
 services:
-  web:
-    build: .
+  swisshikefinder:
+    image: swisshikefinder:latest
     environment:
       PORT: ${PORT}
       HIKE_API_KEY: ${HIKE_API_KEY}
