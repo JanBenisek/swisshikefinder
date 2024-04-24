@@ -28,7 +28,7 @@ WORKDIR /app
 
 COPY --from=build-stage app/swiss-hiker-bin ./swiss-hiker-bin
 # TODO: package static files into the binary
-COPY --from=build-stage app/assets/style.css ./assets
+COPY --from=build-stage app/assets/style.css ./assets/
 COPY --from=build-stage app/index.html ./
 
 EXPOSE 8080
