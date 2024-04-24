@@ -1,28 +1,40 @@
-# Specifies a parent image
-# FROM golang:1.20.7-bullseye AS builder
-FROM golang:1.20.7-bullseye
+FROM golang:1.20.7-bullseye AS build-stage
+# FROM golang:1.19 AS build-stage
+
+# this will label the github package as public
 LABEL org.opencontainers.image.source="https://github.com/janbenisek/swisshikefinder"
- 
 
-# Creates an app directory to hold your app’s source code
 WORKDIR /app
- 
-# Copies everything from your root directory into /app
-COPY /src .
 
-# Installs Go dependencies
+# recommended to use ./ which forces current working directory (WORKDIR)
+COPY /src ./
+
+# Download go modules
 RUN go mod download
 
-# Build the Go application into a binary
-RUN CGO_ENABLED=0 GOOS=linux go build -o swiss-hiker-bin .
+# Build
+# with ./ it goes into workdir
+# with / it does to the root of the container, so next to app
+RUN CGO_ENABLED=0 GOOS=linux go build -o ./swiss-hiker-bin
 
-# Use a lightweight Alpine image as the final base image
-# FROM alpine:latest AS runtime
 
-# WORKDIR /app
-# COPY --from=builder /swiss-hiker-bin /swiss-hiker-bin
+# Run the tests in the container
+FROM build-stage AS run-test-stage
+RUN go test -v ./...
+
+FROM alpine:latest AS build-release-stage
+
+WORKDIR /app
+
+COPY --from=build-stage app/swiss-hiker-bin ./swiss-hiker-bin
+# TODO: package static files into the binary
+COPY --from=build-stage app/assets/style.css ./assets/
+COPY --from=build-stage app/index.html ./
 
 EXPOSE 8080
 
-# ENTRYPOINT ["/swiss-hiker-bin"]
-CMD ["./swiss-hiker-bin"]
+# security to run as nonroot user, add to final version
+# USER nonroot:nonroot
+
+# because WORKDIR is /app, ./ works
+ENTRYPOINT ["./swiss-hiker-bin"]

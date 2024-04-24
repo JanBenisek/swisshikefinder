@@ -25,5 +25,5 @@ jobs:
 
       - name: 'Build Inventory Image'
         run: |
-          docker build -t ghcr.io/janbenisek/swiss-hike-finder:latest .
+          docker build --no-cache -t ghcr.io/janbenisek/swisshikefinder:latest .
           docker push ghcr.io/janbenisek/swiss-hike-finder:latest
