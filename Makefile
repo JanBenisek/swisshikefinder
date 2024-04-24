@@ -9,8 +9,8 @@ build:
 gobuild:
 	go build -o ./swisshikerbin && ./swisshikerbin
 
-# compose:
-# 	docker compose up -d && docker ps -a && docker logs $(PROJECT_NAME)-$(PROJECT_NAME)-1 -f
+compose:
+	docker compose up -d && docker ps -a && docker logs $(PROJECT_NAME)-$(PROJECT_NAME)-1 -f
 
 stop:
 	docker stop $$(docker ps -a -q) && docker rm $$(docker ps -a -q)
