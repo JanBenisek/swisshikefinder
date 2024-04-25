@@ -2,6 +2,7 @@ package main //belongs to the main package
 
 import (
 	"bytes"
+	"embed"
 	"html/template"
 	"log"
 	"net/http" // webserver
@@ -14,8 +15,15 @@ import (
 )
 
 // package level variable - means that it is available anywhere in this package
+
+//go:embed templates
+var templates embed.FS
+
+//go:embed assets
+var assets embed.FS
+
 // Must means if return is nil, it panicks
-var tpl = template.Must(template.ParseFiles("index.html"))
+var tpl = template.Must(template.ParseFS(templates, "templates/index.html"))
 
 type Search struct {
 	Query      string
@@ -136,7 +144,6 @@ func searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
 
 		// just for debugging
 		// fmt.Println("Result: ", results)
-		// fmt.Println("Result.Datas: ", results.Data)
 		// fmt.Println("Result.Metadata: ", results.Meta)
 		// fmt.Println("Result.Link: ", results.Links)
 		// fmt.Println("Search Query is: ", searchQuery)
@@ -165,12 +172,13 @@ func main() {
 
 	// register file server, so we can serve them in this request
 	// we need to serve the assets to the client, this is a nice way, also they are close and cached
-	fs := http.FileServer(http.Dir("assets"))
+	var assetsFS = http.FS(assets)
+	fs := http.FileServer(assetsFS)
 
 	// creates new HTTP server multiplexer
 	// checks each requests and routes it to appropriate function
 	mux := http.NewServeMux()
-	// in index.html another endpoit is /assets, we need to serve that ... I THINK???
+	// in index.html another endpoint is /assets, we need to serve that ... I THINK???
 	mux.Handle("/assets/", http.StripPrefix("/assets/", fs)) // use this file server with all requests with assets/
 
 	mux.HandleFunc("/search", searchHandler(hikesapi)) // with /search, use the searchHandler
