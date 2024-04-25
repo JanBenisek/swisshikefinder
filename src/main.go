@@ -2,7 +2,7 @@ package main //belongs to the main package
 
 import (
 	"bytes"
-	"embed"
+	"embed" // embed static files in the binary
 	"html/template"
 	"log"
 	"net/http" // webserver
