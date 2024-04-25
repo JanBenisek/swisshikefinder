@@ -1,5 +1,4 @@
 FROM golang:1.20.7-bullseye AS build-stage
-# FROM golang:1.19 AS build-stage
 
 # this will label the github package as public
 LABEL org.opencontainers.image.source="https://github.com/janbenisek/swisshikefinder"
@@ -28,13 +27,13 @@ WORKDIR /app
 
 COPY --from=build-stage app/swiss-hiker-bin ./swiss-hiker-bin
 # TODO: package static files into the binary
-COPY --from=build-stage app/assets/style.css ./assets/
-COPY --from=build-stage app/index.html ./
+# COPY --from=build-stage app/assets/style.css ./assets/
+# COPY --from=build-stage app/index.html ./
 
 EXPOSE 8080
 
-# security to run as nonroot user, add to final version
-# USER nonroot:nonroot
+# TODO: add no-root user and run with it
+# USER nonroot
 
 # because WORKDIR is /app, ./ works
 ENTRYPOINT ["./swiss-hiker-bin"]
