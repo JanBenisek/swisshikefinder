@@ -10,6 +10,18 @@ Playground to learn Go and find awesome hikes.
 - buy domain and switch
 - deployment - droplet with docker compose?
 
+## Go notes
+
+- `:=` declares and inits a variable and it infers the type
+- `=` assigns value to an existing variable
+- `&` creates a new pointer to a new instance, useful to pass a pointer instead of an instance
+  - benefit is mutability - if I need to mutate variable elsewhere, pointer helps
+  - go passes arguments to functions as values (so changes would not be visible elsewhere)
+  - whenever we pass an instance of a struct, go makes a copy, which might be inefficient
+- `composite literals` are made with `{...}`
+  - to create and initialise values for composite types, like arrays, structs, maps etc..
+  - when go creates new instances of these, they are initialised as pointers
+
 ## Readings
 
 - https://freshman.tech/web-development-with-go/

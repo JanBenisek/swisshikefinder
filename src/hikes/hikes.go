@@ -3,19 +3,25 @@ package hikes
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 )
 
 type Client struct {
-	http     *http.Client
+	http     *http.Client // this will be a pointer, it is HTTP client to send HTTP request
 	key      string
 	PageSize int
 }
 
-// my function
 func (c *Client) FetchEverything(query, page string) (*Results, error) {
+	// Function fetches everything from an endpoint
+	// operates on a struct Client, a pointer (is a method of that struct)
+	// params:
+	// query: string, query to search for
+	// page: how many pages to return
+	// returns: tuple, pointer to result and error
+
 	// Define the endpoint URL
 	endpoint := "https://opendata.myswitzerland.io/v1/destinations"
 
@@ -24,8 +30,8 @@ func (c *Client) FetchEverything(query, page string) (*Results, error) {
 
 	fmt.Println("URL: ", url)
 
-	// Create a new HTTP GET request
-	req, err := http.NewRequest("GET", url, nil)
+	// Create a new HTTP GET request object
+	req, err := http.NewRequest("GET", url, nil) // third param is request body
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %v", err)
 	}
@@ -35,11 +41,12 @@ func (c *Client) FetchEverything(query, page string) (*Results, error) {
 	req.Header.Set("x-api-key", c.key)
 
 	// Send the HTTP request
-	client := http.DefaultClient
-	resp, err := client.Do(req)
+	client := http.DefaultClient //default instance, holds a reference to HTTP client instance
+	resp, err := client.Do(req)  // sends the actual request
 	if err != nil {
 		return nil, fmt.Errorf("error sending request: %v", err)
 	}
+	// after HTTP request has been processed, close it. We need to release resources linked to the request
 	defer resp.Body.Close()
 
 	// Check if the response status code is OK
@@ -48,7 +55,7 @@ func (c *Client) FetchEverything(query, page string) (*Results, error) {
 	}
 
 	// Read the response body
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body) // returns byte slice containing the data
 	if err != nil {
 		return nil, fmt.Errorf("error reading response: %v", err)
 	}
@@ -58,7 +65,7 @@ func (c *Client) FetchEverything(query, page string) (*Results, error) {
 
 	// Unmarshal JSON response
 	res := &Results{}
-	err = json.Unmarshal(body, res)
+	err = json.Unmarshal(body, res) // converts JSON into struct, (data, pointer to struct)
 	if err != nil {
 		// Handle unmarshal error
 		fmt.Println(err.Error())
@@ -69,6 +76,12 @@ func (c *Client) FetchEverything(query, page string) (*Results, error) {
 }
 
 func NewClient(httpClient *http.Client, key string, pageSize int) *Client {
+	// Create a new instance of a client
+	// params:
+	// httpClient: pointer to a Client instance
+	// key: key to the API
+	// pageSize: size of page to return
+	// returns pointer to a client
 	if pageSize > 50 {
 		pageSize = 50
 	}
