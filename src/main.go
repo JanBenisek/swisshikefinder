@@ -166,18 +166,13 @@ func main() {
 	// not a pointer because the function returns a pointer
 	hikesapi := hikes.NewClient(myClient, apiKey, 3) // inits new client for the API with page size
 
-	// register file server, so we can serve them in this request
-	// we need to serve the assets to the client, this is a nice way, also they are close and cached
-
-	var staticFS = http.FS(static)
-	fs := http.FileServer(staticFS)
-
 	// creates new HTTP server multiplexer
 	// checks each requests and routes it to appropriate function
 	mux := http.NewServeMux()
 
-	// in index.html another endpoint is /assets, we need to serve that ... I THINK???
-	mux.Handle("/assets/", http.StripPrefix("/static/", fs)) // use this file server with all requests with assets/
+	// in index.html another endpoint is /static, we need to serve that ... I THINK???
+	// we are giving it a file server (we need to serve static files), from which it serves the request
+	mux.Handle("/static/", http.FileServer(http.FS(static))) //they are close and cached
 
 	mux.HandleFunc("/search", searchHandler(hikesapi)) // with /search, use the searchHandler
 	mux.HandleFunc("/", indexHandler)                  // handles request to the root
