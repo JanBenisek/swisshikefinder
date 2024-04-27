@@ -169,15 +169,18 @@ func main() {
 	// register file server, so we can serve them in this request
 	// we need to serve the assets to the client, this is a nice way, also they are close and cached
 
-	var staticFS = http.FS(static)
-	fs := http.FileServer(staticFS)
+	// var staticFS = http.FS(static)
+	// fs := http.FileServer(staticFS)
 
 	// creates new HTTP server multiplexer
 	// checks each requests and routes it to appropriate function
 	mux := http.NewServeMux()
 
 	// in index.html another endpoint is /assets, we need to serve that ... I THINK???
-	mux.Handle("/assets/", http.StripPrefix("/static/", fs)) // use this file server with all requests with assets/
+	//mux.Handle("/assets/", http.StripPrefix("/static/", fs)) // use this file server with all requests with assets/
+	// mux.Handle("/assets/", fs)
+	// mux.Handle("/assets/", fs)
+	mux.Handle("/static/", http.FileServer(http.FS(static)))
 
 	mux.HandleFunc("/search", searchHandler(hikesapi)) // with /search, use the searchHandler
 	mux.HandleFunc("/", indexHandler)                  // handles request to the root
