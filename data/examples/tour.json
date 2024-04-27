@@ -1,0 +1,212 @@
+{
+  "meta": {
+    "language": "en",
+    "apiVersion": "v1.3.5"
+  },
+  "links": {
+    "self": "https://opendata.myswitzerland.io/v1/tours/87754863-5506-4715-890d-055455067760",
+    "parent": "https://opendata.myswitzerland.io/v1/tours"
+  },
+  "data": {
+    "@context": "https://schema.org/",
+    "@type": "TouristTrip",
+    "identifier": "87754863-5506-4715-890d-055455067760",
+    "subjectOf": {
+      "@type": "CreativeWork",
+      "license": "http://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "links": {
+      "self": "https://opendata.myswitzerland.io/v1/tours/87754863-5506-4715-890d-055455067760"
+    },
+    "name": "Aletsch Panoramaweg, Stage 1/3",
+    "abstract": "Best views of glacier snout and lower part of Aletsch Glacier from Aletschbor. Over a hanging bridge to Aletschwald (forest) with 100-year-old Swiss stone pines. Villa Cassel looms like an eagle's nest on the Riederfurka ridge, surrounded by the magnificent Valais mountains.",
+    "touristType": [
+      "Outdoor Enthusiast"
+    ],
+    "itinerary": [
+      {
+        "@type": "Place",
+        "identifier": "00000000-0000-0000-0000-000000000000",
+        "name": "Blatten, Belalp"
+      },
+      {
+        "@type": "Place",
+        "identifier": "00000000-0000-0000-0000-000000000000",
+        "name": "Riederalp, Riederfurka"
+      }
+    ],
+    "partOfTrip": {
+      "identifier": "58de9a26-8279-4c23-b024-4d3f41a3d30b",
+      "url": "https://opendata.myswitzerland.io/v1/tours/58de9a26-8279-4c23-b024-4d3f41a3d30b"
+    },
+    "url": "https://www.myswitzerland.com/en/experiences/route/aletsch-panoramaweg-39_01/",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 46.35876379,
+      "longitude": 7.98434186
+    },
+    "switzerlandMobility": {
+      "@context": "https://myswitzerland.io/",
+      "@type": "SwitzerlandMobility",
+      "logo": "https://images.schweizmobil.ch/image/WL_039_00_VS_140px.jpg",
+      "stage": "39.01",
+      "requirements": {
+        "technical": "medium",
+        "endurance": "medium"
+      },
+      "routeCategory": "Regional",
+      "url": "https://www.schweizmobil.ch/en/wanderland/etappe39.01",
+      "geodata": "https://opendata.myswitzerland.io/v1/tours/87754863-5506-4715-890d-055455067760/geodata"
+    },
+    "specs": {
+      "@context": "https://myswitzerland.io/",
+      "@type": "TourSpecifics",
+      "distance": 10,
+      "duration": 230,
+      "ascent": 720,
+      "descent": 760,
+      "barrierFree": false
+    },
+    "image": [
+      {
+        "@type": "ImageObject",
+        "keywords": "leisure,summer,winter",
+        "publisher": "Switzerland Tourism",
+        "encodingFormat": "image/jpeg",
+        "url": "https://images.schweizmobil.ch/image-master/WL_039_01_P1050369_R_F_M.jpg"
+      }
+    ],
+    "classification": [
+      {
+        "@context": "https://myswitzerland.io/",
+        "@type": "Classification",
+        "name": "views",
+        "values": [
+          {
+            "name": "panorama",
+            "title": "Panorama"
+          },
+          {
+            "name": "mountainview",
+            "title": "Mountain view"
+          }
+        ]
+      },
+      {
+        "@context": "https://myswitzerland.io/",
+        "@type": "Classification",
+        "name": "requirementconditions",
+        "values": [
+          {
+            "name": "medium",
+            "title": "Medium"
+          }
+        ]
+      },
+      {
+        "@context": "https://myswitzerland.io/",
+        "@type": "Classification",
+        "name": "landscape",
+        "title": "Landscape",
+        "values": [
+          {
+            "name": "withpanoramicview",
+            "title": "With panoramic views"
+          },
+          {
+            "name": "oversuspensionbridge",
+            "title": "Over a suspension bridge"
+          }
+        ]
+      },
+      {
+        "@context": "https://myswitzerland.io/",
+        "@type": "Classification",
+        "name": "geographicallocations",
+        "values": [
+          {
+            "name": "inthealpinemountains",
+            "title": "In the alpine mountains"
+          },
+          {
+            "name": "alonggrandtour",
+            "title": "Along the Grand Tour"
+          }
+        ]
+      },
+      {
+        "@context": "https://myswitzerland.io/",
+        "@type": "Classification",
+        "name": "reachabilitylocation",
+        "values": [
+          {
+            "name": "closetopublictransport",
+            "title": "Close to public transport"
+          }
+        ]
+      },
+      {
+        "@context": "https://myswitzerland.io/",
+        "@type": "Classification",
+        "name": "gadmindurationoverall",
+        "values": [
+          {
+            "name": "24h",
+            "title": "2 - 4 hours"
+          }
+        ]
+      },
+      {
+        "@context": "https://myswitzerland.io/",
+        "@type": "Classification",
+        "name": "routestypes",
+        "title": "Route Type",
+        "values": [
+          {
+            "name": "hike",
+            "title": "Hike"
+          }
+        ]
+      },
+      {
+        "@context": "https://myswitzerland.io/",
+        "@type": "Classification",
+        "name": "routecategories",
+        "values": [
+          {
+            "name": "regional",
+            "title": "Regional"
+          }
+        ]
+      },
+      {
+        "@context": "https://myswitzerland.io/",
+        "@type": "Classification",
+        "name": "licences",
+        "values": [
+          {
+            "name": "bysa",
+            "title": "BY-SA"
+          }
+        ]
+      },
+      {
+        "@context": "https://myswitzerland.io/",
+        "@type": "Classification",
+        "name": "requirementsswissmobil",
+        "values": [
+          {
+            "name": "medium",
+            "title": "Medium"
+          }
+        ]
+      }
+    ],
+    "origin": {
+      "@context": "https://myswitzerland.io/",
+      "@type": "Origin",
+      "name": "Schweiz Mobil",
+      "url": "http://www.schweizmobil.ch/"
+    }
+  }
+}

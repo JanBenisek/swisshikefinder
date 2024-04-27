@@ -1,0 +1,1377 @@
+{
+  "meta": {
+    "language": "en",
+    "apiVersion": "v1.3.5",
+    "page": {
+      "size": 10,
+      "totalElements": 3688,
+      "totalPages": 369,
+      "number": 0
+    }
+  },
+  "links": {
+    "self": "https://opendata.myswitzerland.io/v1/attractions?query=*",
+    "first": "https://opendata.myswitzerland.io/v1/attractions?query=*&page=0",
+    "last": "https://opendata.myswitzerland.io/v1/attractions?query=*&page=368",
+    "next": "https://opendata.myswitzerland.io/v1/attractions?query=*&page=1"
+  },
+  "data": [
+    {
+      "@context": "https://schema.org/",
+      "@type": "TouristAttraction",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "license": "http://creativecommons.org/licenses/by-sa/4.0/"
+      },
+      "links": {
+        "self": "https://opendata.myswitzerland.io/v1/attractions/fffb9ee5-61c4-4da4-bc89-09f5be51d0f1"
+      },
+      "identifier": "fffb9ee5-61c4-4da4-bc89-09f5be51d0f1",
+      "name": "Valaisian Suonen Museum",
+      "abstract": "The Valaisian Suonen Museum is in the heart of the little village of Botyre (Ayent Community) 6 kilometres away from Anzère. It is dedicated to issues pertaining to the Suonen (ancient irrigation channels).",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 46.27576524698755,
+        "longitude": 7.404699712878765
+      },
+      "classification": [
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "naturetype",
+          "title": "Nature",
+          "values": [
+            {
+              "name": "suone",
+              "title": "Suone"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "geographicallocations",
+          "values": [
+            {
+              "name": "alonggrandtour",
+              "title": "Along the Grand Tour"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "licences",
+          "values": [
+            {
+              "name": "bysa",
+              "title": "BY-SA"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "museumtype",
+          "title": "Museum",
+          "values": [
+            {
+              "name": "historical",
+              "title": "Historical"
+            }
+          ]
+        }
+      ],
+      "url": "https://www.myswitzerland.com/en/experiences/valaisian-suonen-museum/",
+      "photo": "https://www.myswitzerland.com/-/media/st/gadmin/images/attractions/museum/_mg_0079neu_174276.jpg"
+    },
+    {
+      "@context": "https://schema.org/",
+      "@type": "TouristAttraction",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "license": "http://creativecommons.org/licenses/by-sa/4.0/"
+      },
+      "links": {
+        "self": "https://opendata.myswitzerland.io/v1/attractions/fff92c7b-0525-46b4-8e04-fbf9a62abf5b"
+      },
+      "identifier": "fff92c7b-0525-46b4-8e04-fbf9a62abf5b",
+      "name": "Schöllenen Gorge",
+      "abstract": "The Schöllenen Gorge stretches from Göschenen to Andermatt in the Gotthard region. It was here over 200 years ago that the French fought the Russians. The Suvorov Monument is a memorial to the fallen.",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 46.649147,
+        "longitude": 8.590251
+      },
+      "classification": [
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "geographicallocations",
+          "values": [
+            {
+              "name": "bytheriver",
+              "title": "By the river"
+            },
+            {
+              "name": "inthealpinemountains",
+              "title": "In the alpine mountains"
+            },
+            {
+              "name": "alonggrandtour",
+              "title": "Along the Grand Tour"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "views",
+          "values": [
+            {
+              "name": "mountainview",
+              "title": "Mountain view"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "naturetype",
+          "title": "Nature",
+          "values": [
+            {
+              "name": "canyons",
+              "title": "Canyons"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "seasons",
+          "values": [
+            {
+              "name": "winter",
+              "title": "Winter"
+            },
+            {
+              "name": "spring",
+              "title": "Spring"
+            },
+            {
+              "name": "summer",
+              "title": "Summer"
+            },
+            {
+              "name": "autumn",
+              "title": "Autumn"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "childrenage",
+          "title": "Children age",
+          "values": [
+            {
+              "name": "14plus",
+              "title": "14+ years"
+            },
+            {
+              "name": "10to13years",
+              "title": "10 to 13 years"
+            },
+            {
+              "name": "6to9years",
+              "title": "6 to 9 years"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "experiencetype",
+          "title": "Experience Type",
+          "values": [
+            {
+              "name": "adventure",
+              "title": "Adventure"
+            },
+            {
+              "name": "nature",
+              "title": "Nature"
+            },
+            {
+              "name": "active",
+              "title": "Active"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "wheelchairaccessibleclassifications",
+          "title": "Wheelchair accessible",
+          "values": [
+            {
+              "name": "notwheelchairaccessible",
+              "title": "Not Wheelchair accessible"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "indooroutdoorclassifications",
+          "values": [
+            {
+              "name": "outdoor",
+              "title": "Outdoor"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "month",
+          "values": [
+            {
+              "name": "april",
+              "title": "April"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "licences",
+          "values": [
+            {
+              "name": "bysa",
+              "title": "BY-SA"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "difficulty",
+          "title": "Difficulty",
+          "values": [
+            {
+              "name": "low",
+              "title": "Low"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "suitablefortype",
+          "title": "Suitable for",
+          "values": [
+            {
+              "name": "children",
+              "title": "Children"
+            },
+            {
+              "name": "couples",
+              "title": "Couples"
+            },
+            {
+              "name": "family",
+              "title": "Families"
+            },
+            {
+              "name": "group",
+              "title": "Groups"
+            },
+            {
+              "name": "individual",
+              "title": "Individual"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "buildingstype",
+          "title": "Building type",
+          "values": [
+            {
+              "name": "bridge",
+              "title": "Bridge"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "neededtime",
+          "title": "Needed time",
+          "values": [
+            {
+              "name": "between12hours",
+              "title": "1-2 hours"
+            }
+          ]
+        }
+      ],
+      "url": "https://www.myswitzerland.com/en/experiences/schoellenen-gorge/",
+      "photo": "https://www.myswitzerland.com/-/media/dam/resources/experience/s/c/schoellenenschlucht-und-teufelsbruecke/images%20all%20season/49201_32001800.jpeg"
+    },
+    {
+      "@context": "https://schema.org/",
+      "@type": "TouristAttraction",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "license": "http://creativecommons.org/licenses/by-sa/4.0/"
+      },
+      "links": {
+        "self": "https://opendata.myswitzerland.io/v1/attractions/ffe1405c-a13f-4c24-8790-33e7a3c5eded"
+      },
+      "identifier": "ffe1405c-a13f-4c24-8790-33e7a3c5eded",
+      "name": "Over hill and dale",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 46.1079221853,
+        "longitude": 7.9260656122
+      },
+      "classification": [
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "seasons",
+          "values": [
+            {
+              "name": "summer",
+              "title": "Summer"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "values": [
+            {
+              "name": "it",
+              "title": "Italian"
+            },
+            {
+              "name": "gsw",
+              "title": "Swiss German"
+            },
+            {
+              "name": "fr",
+              "title": "French"
+            },
+            {
+              "name": "de",
+              "title": "German"
+            },
+            {
+              "name": "en",
+              "title": "English"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "experiencetype",
+          "title": "Experience Type",
+          "values": [
+            {
+              "name": "nature",
+              "title": "Nature"
+            },
+            {
+              "name": "active",
+              "title": "Active"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "indooroutdoorclassifications",
+          "values": [
+            {
+              "name": "outdoor",
+              "title": "Outdoor"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "licences",
+          "values": [
+            {
+              "name": "bysa",
+              "title": "BY-SA"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "suitablefortype",
+          "title": "Suitable for",
+          "values": [
+            {
+              "name": "couples",
+              "title": "Couples"
+            },
+            {
+              "name": "group",
+              "title": "Groups"
+            },
+            {
+              "name": "individual",
+              "title": "Individual"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "executiononclassifications",
+          "title": "Execution on Classifications",
+          "values": [
+            {
+              "name": "ondemand",
+              "title": "On demand"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "neededtime",
+          "title": "Needed time",
+          "values": [
+            {
+              "name": "4to8hoursfullday",
+              "title": "4 to 8 hours (full day)"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "dynamiccampaigntypes",
+          "values": [
+            {
+              "name": "erlebnisfinder",
+              "title": "Erlebnisfinder"
+            },
+            {
+              "name": "lektorat",
+              "title": "Lektorat"
+            }
+          ]
+        }
+      ],
+      "url": "https://www.myswitzerland.com/en/experiences/over-hill-and-dale/",
+      "photo": "https://static.stnet.ch/offers/images/7c131e2a-fd43-4629-b156-81073fcc399c-o.jpg"
+    },
+    {
+      "@context": "https://schema.org/",
+      "@type": "TouristAttraction",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "license": "http://creativecommons.org/licenses/by-sa/4.0/"
+      },
+      "links": {
+        "self": "https://opendata.myswitzerland.io/v1/attractions/ff8439fa-98b4-45fd-9f63-8a7711c65247"
+      },
+      "identifier": "ff8439fa-98b4-45fd-9f63-8a7711c65247",
+      "name": "Cross-country skiing and yoga weekend",
+      "abstract": "A snow-filled weekend for body and mind focusing on cross-country skiing and yoga for balance.",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 46.82107,
+        "longitude": 8.4038234
+      },
+      "classification": [
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "seasons",
+          "values": [
+            {
+              "name": "winter",
+              "title": "Winter"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "values": [
+            {
+              "name": "gsw",
+              "title": "Swiss German"
+            },
+            {
+              "name": "de",
+              "title": "German"
+            },
+            {
+              "name": "en",
+              "title": "English"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "experiencetype",
+          "title": "Experience Type",
+          "values": [
+            {
+              "name": "nature",
+              "title": "Nature"
+            },
+            {
+              "name": "relax",
+              "title": "Relax"
+            },
+            {
+              "name": "active",
+              "title": "Active"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "indooroutdoorclassifications",
+          "values": [
+            {
+              "name": "indooroutdoor",
+              "title": "Indoor and outdoor"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "licences",
+          "values": [
+            {
+              "name": "bysa",
+              "title": "BY-SA"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "suitablefortype",
+          "title": "Suitable for",
+          "values": [
+            {
+              "name": "womenonly",
+              "title": "Women only"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "neededtime",
+          "title": "Needed time",
+          "values": [
+            {
+              "name": "severaldays",
+              "title": "Several days"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "dynamiccampaigntypes",
+          "values": [
+            {
+              "name": "womenonly_wintersport",
+              "title": "Winter sports"
+            },
+            {
+              "name": "womenonly_wellnessachtsamkeit",
+              "title": "Wellness and mindfulness"
+            },
+            {
+              "name": "100women",
+              "title": "100% Women"
+            }
+          ]
+        }
+      ],
+      "url": "https://www.myswitzerland.com/en/experiences/cross-country-skiing-and-yoga-weekend/",
+      "photo": "https://static.stnet.ch/offers/images/a6cd6203-663d-424f-a830-ece93c33ef55-o.jpg"
+    },
+    {
+      "@context": "https://schema.org/",
+      "@type": "TouristAttraction",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "license": "http://creativecommons.org/licenses/by-sa/4.0/"
+      },
+      "links": {
+        "self": "https://opendata.myswitzerland.io/v1/attractions/ff4b942e-e534-4ad8-b292-cc9bb2545709"
+      },
+      "identifier": "ff4b942e-e534-4ad8-b292-cc9bb2545709",
+      "name": "City tour: City train",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 47.14031686010422,
+        "longitude": 9.521803411440846
+      },
+      "classification": [
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "seasons",
+          "values": [
+            {
+              "name": "winter",
+              "title": "Winter"
+            },
+            {
+              "name": "summer",
+              "title": "Summer"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "childrenage",
+          "title": "Children age",
+          "values": [
+            {
+              "name": "14plus",
+              "title": "14+ years"
+            },
+            {
+              "name": "10to13years",
+              "title": "10 to 13 years"
+            },
+            {
+              "name": "0to5years",
+              "title": "0 to 5 years"
+            },
+            {
+              "name": "6to9years",
+              "title": "6 to 9 years"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "experiencetype",
+          "title": "Experience Type",
+          "values": [
+            {
+              "name": "relax",
+              "title": "Relax"
+            },
+            {
+              "name": "education",
+              "title": "Education"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "indooroutdoorclassifications",
+          "values": [
+            {
+              "name": "indoor",
+              "title": "Indoor"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "toursandsightseeingtype",
+          "title": "Tours and Sightseeing",
+          "values": [
+            {
+              "name": "citytours",
+              "title": "City Tours"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "geographicallocations",
+          "values": [
+            {
+              "name": "alonggrandtour",
+              "title": "Along the Grand Tour"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "licences",
+          "values": [
+            {
+              "name": "bysa",
+              "title": "BY-SA"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "suitablefortype",
+          "title": "Suitable for",
+          "values": [
+            {
+              "name": "family",
+              "title": "Families"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "neededtime",
+          "title": "Needed time",
+          "values": [
+            {
+              "name": "2to4hourshalfday",
+              "title": "2 to 4 hours (half day)"
+            }
+          ]
+        }
+      ],
+      "url": "https://www.myswitzerland.com/en/experiences/city-tour-city-train/",
+      "photo": "https://www.myswitzerland.com/-/media/st/gadmin/images/transport/summer/train/train-regierung-okt-2010_44464.jpg"
+    },
+    {
+      "@context": "https://schema.org/",
+      "@type": "TouristAttraction",
+      "additionalType": [
+        "Winery"
+      ],
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "license": "http://creativecommons.org/licenses/by-sa/4.0/"
+      },
+      "links": {
+        "self": "https://opendata.myswitzerland.io/v1/attractions/ff4976e6-4da4-4b69-9f30-e27082d1075c"
+      },
+      "identifier": "ff4976e6-4da4-4b69-9f30-e27082d1075c",
+      "name": "Wolfer Vineyard",
+      "abstract": "The winery is beautifully located in the midst of the vineyard of Weinfelden. In 2013 the Wolfer Vineyard was crowned world champion of the Pinot Noir producers by Mondial des Pinots.",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 47.56644636609266,
+        "longitude": 9.109058505002016
+      },
+      "classification": [
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "factorytourtype",
+          "title": "Factory tour ",
+          "values": [
+            {
+              "name": "winery",
+              "title": "Winery"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "geographicallocations",
+          "values": [
+            {
+              "name": "alonggrandtour",
+              "title": "Along the Grand Tour"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "licences",
+          "values": [
+            {
+              "name": "bysa",
+              "title": "BY-SA"
+            }
+          ]
+        }
+      ],
+      "url": "https://www.myswitzerland.com/en/experiences/wolfer-vineyard/",
+      "photo": "https://www.myswitzerland.com/-/media/st/gadmin/images/food%20and%20drink/wine/weinfelden_wolfer_2_230426.jpg"
+    },
+    {
+      "@context": "https://schema.org/",
+      "@type": "TouristAttraction",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "license": "http://creativecommons.org/licenses/by-sa/4.0/"
+      },
+      "links": {
+        "self": "https://opendata.myswitzerland.io/v1/attractions/ff447644-ede9-4d98-949a-16ff6539ae6b"
+      },
+      "identifier": "ff447644-ede9-4d98-949a-16ff6539ae6b",
+      "name": "Summer Gemel – tobogganing in summer",
+      "abstract": "Go tobogganing in summer! A new sports tool – the Summer Gemel – makes this possible. It takes the form of a sleek three-wheeler that is designed and built in Switzerland.",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 46.62488824128935,
+        "longitude": 8.030952064559212
+      },
+      "classification": [
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "licences",
+          "values": [
+            {
+              "name": "bysa",
+              "title": "BY-SA"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "sporttype",
+          "title": "Sport type",
+          "values": [
+            {
+              "name": "sledging",
+              "title": "Sledging"
+            },
+            {
+              "name": "toboggan",
+              "title": "Toboggan"
+            }
+          ]
+        }
+      ],
+      "url": "https://www.myswitzerland.com/en/experiences/summer-gemel-tobogganing-in-summer/",
+      "photo": "https://www.myswitzerland.com/-/media/st/gadmin/images/sport/summer/adventure/sommer_gemel_44362_250259.jpg"
+    },
+    {
+      "@context": "https://schema.org/",
+      "@type": "TouristAttraction",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "license": "http://creativecommons.org/licenses/by-sa/4.0/"
+      },
+      "links": {
+        "self": "https://opendata.myswitzerland.io/v1/attractions/ff3f84a9-b1c7-46aa-81a8-0bbf9a818f62"
+      },
+      "identifier": "ff3f84a9-b1c7-46aa-81a8-0bbf9a818f62",
+      "name": "Castle tour",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 46.7796522086,
+        "longitude": 10.2651727919
+      },
+      "classification": [
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "seasons",
+          "values": [
+            {
+              "name": "winter",
+              "title": "Winter"
+            },
+            {
+              "name": "spring",
+              "title": "Spring"
+            },
+            {
+              "name": "summer",
+              "title": "Summer"
+            },
+            {
+              "name": "autumn",
+              "title": "Autumn"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "values": [
+            {
+              "name": "gsw",
+              "title": "Swiss German"
+            },
+            {
+              "name": "rm",
+              "title": "Romansh"
+            },
+            {
+              "name": "de",
+              "title": "German"
+            },
+            {
+              "name": "en",
+              "title": "English"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "experiencetype",
+          "title": "Experience Type",
+          "values": [
+            {
+              "name": "culture",
+              "title": "Culture"
+            },
+            {
+              "name": "education",
+              "title": "Education"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "licences",
+          "values": [
+            {
+              "name": "bysa",
+              "title": "BY-SA"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "suitablefortype",
+          "title": "Suitable for",
+          "values": [
+            {
+              "name": "children",
+              "title": "Children"
+            },
+            {
+              "name": "couples",
+              "title": "Couples"
+            },
+            {
+              "name": "family",
+              "title": "Families"
+            },
+            {
+              "name": "group",
+              "title": "Groups"
+            },
+            {
+              "name": "individual",
+              "title": "Individual"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "neededtime",
+          "title": "Needed time",
+          "values": [
+            {
+              "name": "lessthan1hour",
+              "title": "Less than 1 hour"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "dynamiccampaigntypes",
+          "values": [
+            {
+              "name": "erlebnisfinder",
+              "title": "Erlebnisfinder"
+            },
+            {
+              "name": "guided_winter_tour",
+              "title": "Guided_Winter_Tour"
+            }
+          ]
+        }
+      ],
+      "url": "https://www.myswitzerland.com/en/experiences/castle-tour/",
+      "photo": "https://static.stnet.ch/offers/images/363519e4-0496-4cd2-9b51-c9feabd87321-o.jpg"
+    },
+    {
+      "@context": "https://schema.org/",
+      "@type": "TouristAttraction",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "license": "http://creativecommons.org/licenses/by-sa/4.0/"
+      },
+      "links": {
+        "self": "https://opendata.myswitzerland.io/v1/attractions/ff1e575c-9dbf-4832-b99a-0136a426b17d"
+      },
+      "identifier": "ff1e575c-9dbf-4832-b99a-0136a426b17d",
+      "name": "Birds in the air",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 47.2629625130948,
+        "longitude": 8.96679152774165
+      },
+      "classification": [
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "seasons",
+          "values": [
+            {
+              "name": "spring",
+              "title": "Spring"
+            },
+            {
+              "name": "summer",
+              "title": "Summer"
+            },
+            {
+              "name": "autumn",
+              "title": "Autumn"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "values": [
+            {
+              "name": "gsw",
+              "title": "Swiss German"
+            },
+            {
+              "name": "de",
+              "title": "German"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "experiencetype",
+          "title": "Experience Type",
+          "values": [
+            {
+              "name": "nature",
+              "title": "Nature"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "animalwatchingtype",
+          "values": [
+            {
+              "name": "bird",
+              "title": "Bird"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "indooroutdoorclassifications",
+          "values": [
+            {
+              "name": "outdoor",
+              "title": "Outdoor"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "geographicallocations",
+          "values": [
+            {
+              "name": "alonggrandtour",
+              "title": "Along the Grand Tour"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "licences",
+          "values": [
+            {
+              "name": "bysa",
+              "title": "BY-SA"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "suitablefortype",
+          "title": "Suitable for",
+          "values": [
+            {
+              "name": "couples",
+              "title": "Couples"
+            },
+            {
+              "name": "family",
+              "title": "Families"
+            },
+            {
+              "name": "group",
+              "title": "Groups"
+            },
+            {
+              "name": "individual",
+              "title": "Individual"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "executiononclassifications",
+          "title": "Execution on Classifications",
+          "values": [
+            {
+              "name": "ondemand",
+              "title": "On demand"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "neededtime",
+          "title": "Needed time",
+          "values": [
+            {
+              "name": "between12hours",
+              "title": "1-2 hours"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "dynamiccampaigntypes",
+          "values": [
+            {
+              "name": "erlebnisfinder",
+              "title": "Erlebnisfinder"
+            },
+            {
+              "name": "wildlifewatchingoffers",
+              "title": "WildlifeWatchingOffers"
+            }
+          ]
+        }
+      ],
+      "url": "https://www.myswitzerland.com/en/experiences/birds-in-the-air/",
+      "photo": "https://static.stnet.ch/offers/images/ee708db6-f824-4ab7-a598-cf733698da2e-o.jpg"
+    },
+    {
+      "@context": "https://schema.org/",
+      "@type": "TouristAttraction",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "license": "http://creativecommons.org/licenses/by-sa/4.0/"
+      },
+      "links": {
+        "self": "https://opendata.myswitzerland.io/v1/attractions/ff1e2331-8dfa-4d20-824b-a8ddf04a6fe5"
+      },
+      "identifier": "ff1e2331-8dfa-4d20-824b-a8ddf04a6fe5",
+      "name": "Rare watchmaking technique",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 46.9929793,
+        "longitude": 6.9319325
+      },
+      "classification": [
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "seasons",
+          "values": [
+            {
+              "name": "winter",
+              "title": "Winter"
+            },
+            {
+              "name": "spring",
+              "title": "Spring"
+            },
+            {
+              "name": "summer",
+              "title": "Summer"
+            },
+            {
+              "name": "autumn",
+              "title": "Autumn"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "values": [
+            {
+              "name": "it",
+              "title": "Italian"
+            },
+            {
+              "name": "fr",
+              "title": "French"
+            },
+            {
+              "name": "de",
+              "title": "German"
+            },
+            {
+              "name": "en",
+              "title": "English"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "experiencetype",
+          "title": "Experience Type",
+          "values": [
+            {
+              "name": "culture",
+              "title": "Culture"
+            },
+            {
+              "name": "education",
+              "title": "Education"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "indooroutdoorclassifications",
+          "values": [
+            {
+              "name": "indoor",
+              "title": "Indoor"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "geographicallocations",
+          "values": [
+            {
+              "name": "alonggrandtour",
+              "title": "Along the Grand Tour"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "licences",
+          "values": [
+            {
+              "name": "bysa",
+              "title": "BY-SA"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "suitablefortype",
+          "title": "Suitable for",
+          "values": [
+            {
+              "name": "couples",
+              "title": "Couples"
+            },
+            {
+              "name": "group",
+              "title": "Groups"
+            },
+            {
+              "name": "individual",
+              "title": "Individual"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "executiononclassifications",
+          "title": "Execution on Classifications",
+          "values": [
+            {
+              "name": "ondemand",
+              "title": "On demand"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "neededtime",
+          "title": "Needed time",
+          "values": [
+            {
+              "name": "between12hours",
+              "title": "1-2 hours"
+            }
+          ]
+        },
+        {
+          "@context": "https://myswitzerland.io/",
+          "@type": "Classification",
+          "name": "dynamiccampaigntypes",
+          "values": [
+            {
+              "name": "erlebnisfinder",
+              "title": "Erlebnisfinder"
+            },
+            {
+              "name": "guided_winter_tour",
+              "title": "Guided_Winter_Tour"
+            },
+            {
+              "name": "lektorat",
+              "title": "Lektorat"
+            }
+          ]
+        }
+      ],
+      "url": "https://www.myswitzerland.com/en/experiences/rare-watchmaking-technique/",
+      "photo": "https://static.stnet.ch/offers/images/67addf17-0713-4446-b953-2c84046769ac-o.jpg"
+    }
+  ]
+}
