@@ -26,8 +26,6 @@ FROM alpine:latest AS build-release-stage
 WORKDIR /app
 
 COPY --from=build-stage app/swiss-hiker-bin ./swiss-hiker-bin
-# TODO: package static files into the binary
-# COPY --from=build-stage app/static/ ./static
 
 EXPOSE 8080
 
