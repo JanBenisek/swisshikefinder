@@ -5,19 +5,11 @@ from dotenv import load_dotenv
 import json
 from typing import Dict, Tuple
 import time
+import pandas as pd
 
 load_dotenv()
 
 HIKE_API_KEY = os.environ.get("HIKE_API_KEY")
-
-'''
-- first get IDs of every dest/att/tour (should be within 1k/day)
-- then better control where to start/end
-
-- get all from destination{id}
-- get all from attraction{id}
-- get all from tour{id} and geodata
-'''
 
 
 class ScrapeHikes:
@@ -33,10 +25,10 @@ class ScrapeHikes:
         with open(write_path, "w") as fp:
             json.dump(data, fp)
 
-    # def read(self, path: str):
-    #     with open("./results/destination_ids.json", "w") as fp:
-    #         result = json.load(fp)
-    #     return result
+    def read(self, path: str):
+        with open(path, "r") as fp:
+            result = json.load(fp)
+        return result
 
     def call_api(self, api: str, page: int=0) -> Tuple[Dict, str]:
         ''' get response from API'''
@@ -51,14 +43,15 @@ class ScrapeHikes:
                 "lang": "en",
                 "hitsPerPage": 50,
                 "striphtml": "true",
+                "expand":"true",
                 "page": page
             }
         )
         return response.json(), response.status_code
 
-    def get_all_ids(self, api: str, write_to: str):
+    def get_all_data(self, api: str, write_to: str):
         '''get IDs of all object in given API'''
-        self.result_ids = []
+        self.result_data = []
         current_page = 0
         not_last_page = True
 
@@ -71,7 +64,7 @@ class ScrapeHikes:
             print(f" ... Request status: {status}, total pages: {total_pages}")
 
             # add all ids
-            self.result_ids.extend([record['identifier'] for record in result['data']])
+            self.result_data.extend(result['data'])
             
             current_page += 1
             # 0-based indexing, (83 pages, first with 0 last is 82)
@@ -81,20 +74,25 @@ class ScrapeHikes:
             # api allows 1 call per second, let's be nice
             time.sleep(1.5)
 
-        self.write(data=self.result_ids, file_name=write_to)
+        self.write(data=self.result_data, file_name=write_to)
         print('Finished')
 
 # %%
 SH = ScrapeHikes(api_key=HIKE_API_KEY)
 
-# %%
 # destinations has 4104 elements, 83 pages with 50 elements per page
-SH.get_all_ids(api='destinations', write_to='destination_ids')
+SH.get_all_data(api='destinations', write_to='destinations_data')
 
-#%%
 # attractions has 3688 elements, 74 pages with 50 elements per page
-SH.get_all_ids(api='attractions', write_to='attraction_ids')
+SH.get_all_data(api='attractions', write_to='attractions_data')
+
+# tours has 2493 elements, 50 pages with 50 elements per page
+SH.get_all_data(api='tours', write_to='tours_data')
 
 # %%
-# tours has 2493 elements, 50 pages with 50 elements per page
-SH.get_all_ids(api='tours', write_to='tour_ids')
+# -------------------------
+# --- CLEAN THE DATA ------
+# -------------------------
+destinations_data = SH.read("./results/destinations_data.json")
+attractions_data = SH.read("./results/attractions_data.json")
+tours_data = SH.read("./results/tours_data.json")
