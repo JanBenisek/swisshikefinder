@@ -4,67 +4,76 @@
     "apiVersion": "v1.3.5"
   },
   "links": {
-    "self": "https://opendata.myswitzerland.io/v1/tours/87754863-5506-4715-890d-055455067760",
+    "self": "https://opendata.myswitzerland.io/v1/tours/ffcf3a7e-c62b-48c3-8e43-67c80e7fbc56",
     "parent": "https://opendata.myswitzerland.io/v1/tours"
   },
   "data": {
     "@context": "https://schema.org/",
     "@type": "TouristTrip",
-    "identifier": "87754863-5506-4715-890d-055455067760",
+    "identifier": "ffcf3a7e-c62b-48c3-8e43-67c80e7fbc56",
     "subjectOf": {
       "@type": "CreativeWork",
       "license": "http://creativecommons.org/licenses/by-sa/4.0/"
     },
     "links": {
-      "self": "https://opendata.myswitzerland.io/v1/tours/87754863-5506-4715-890d-055455067760"
+      "self": "https://opendata.myswitzerland.io/v1/tours/ffcf3a7e-c62b-48c3-8e43-67c80e7fbc56"
     },
-    "name": "Aletsch Panoramaweg, Stage 1/3",
-    "abstract": "Best views of glacier snout and lower part of Aletsch Glacier from Aletschbor. Over a hanging bridge to Aletschwald (forest) with 100-year-old Swiss stone pines. Villa Cassel looms like an eagle's nest on the Riederfurka ridge, surrounded by the magnificent Valais mountains.",
+    "name": "Panorama Rundweg Thunersee, Stage 3/4",
+    "abstract": "Starting in Interlaken, the hike hugs Lake Thun before continuing on via Därligen to the Meielisalp up above Leissigen. Enchanting panoramic views are provided by the suspension bridge over the Spissibach stream. Finally, the route continues past Faulensee via Krattigen. The end point for this stage is Spiez with its vineyards and castle – the latter, towering over the town, serves as its characteristic symbol.",
     "touristType": [
-      "Outdoor Enthusiast"
+      "Outdoor Enthusiast - Hiker"
     ],
     "itinerary": [
       {
         "@type": "Place",
-        "identifier": "00000000-0000-0000-0000-000000000000",
-        "name": "Blatten, Belalp"
+        "identifier": "ee4aaf40-62f9-4e81-bf9e-96f9b9eabd06",
+        "name": "Interlaken",
+        "url": "https://opendata.myswitzerland.io/v1/destinations/ee4aaf40-62f9-4e81-bf9e-96f9b9eabd06"
       },
       {
         "@type": "Place",
-        "identifier": "00000000-0000-0000-0000-000000000000",
-        "name": "Riederalp, Riederfurka"
+        "identifier": "f7b8bcd0-7dfc-4735-bc9e-f1b2d511c47a",
+        "name": "Spiez",
+        "url": "https://opendata.myswitzerland.io/v1/destinations/f7b8bcd0-7dfc-4735-bc9e-f1b2d511c47a"
       }
     ],
     "partOfTrip": {
-      "identifier": "58de9a26-8279-4c23-b024-4d3f41a3d30b",
-      "url": "https://opendata.myswitzerland.io/v1/tours/58de9a26-8279-4c23-b024-4d3f41a3d30b"
+      "identifier": "503a4707-b0c6-458a-acf5-de1d9ef21478",
+      "url": "https://opendata.myswitzerland.io/v1/tours/503a4707-b0c6-458a-acf5-de1d9ef21478"
     },
-    "url": "https://www.myswitzerland.com/en/experiences/route/aletsch-panoramaweg-39_01/",
+    "url": "https://www.myswitzerland.com/en/experiences/route/panorama-rundweg-thunersee-26_03/",
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": 46.35876379,
-      "longitude": 7.98434186
+      "latitude": 46.68497688,
+      "longitude": 7.854647624,
+      "elevation": 900
     },
     "switzerlandMobility": {
       "@context": "https://myswitzerland.io/",
       "@type": "SwitzerlandMobility",
-      "logo": "https://images.schweizmobil.ch/image/WL_039_00_VS_140px.jpg",
-      "stage": "39.01",
+      "logo": "https://images.schweizmobil.ch/image/WL_BE_26_075_140px.jpg",
+      "stage": "26.03",
       "requirements": {
-        "technical": "medium",
-        "endurance": "medium"
+        "technical": "easy",
+        "endurance": "difficult"
+      },
+      "warnings": {
+        "title": "Güetital",
+        "text": "The Gütital subway is closed due to construction work."
       },
       "routeCategory": "Regional",
-      "url": "https://www.schweizmobil.ch/en/wanderland/etappe39.01",
-      "geodata": "https://opendata.myswitzerland.io/v1/tours/87754863-5506-4715-890d-055455067760/geodata"
+      "url": "https://www.schweizmobil.ch/en/wanderland/etappe26.03",
+      "geodata": "https://opendata.myswitzerland.io/v1/tours/ffcf3a7e-c62b-48c3-8e43-67c80e7fbc56/geodata"
     },
     "specs": {
       "@context": "https://myswitzerland.io/",
       "@type": "TourSpecifics",
-      "distance": 10,
-      "duration": 230,
-      "ascent": 720,
-      "descent": 760,
+      "season": "April - October",
+      "distance": 20,
+      "duration": 350,
+      "durationReverseDirection": 360,
+      "ascent": 740,
+      "descent": 740,
       "barrierFree": false
     },
     "image": [
@@ -73,10 +82,21 @@
         "keywords": "leisure,summer,winter",
         "publisher": "Switzerland Tourism",
         "encodingFormat": "image/jpeg",
-        "url": "https://images.schweizmobil.ch/image-master/WL_039_01_P1050369_R_F_M.jpg"
+        "url": "https://images.schweizmobil.ch/image-master/WL_026_03_19_Meielisalp_R_F_M.jpg"
       }
     ],
     "classification": [
+      {
+        "@context": "https://myswitzerland.io/",
+        "@type": "Classification",
+        "name": "month",
+        "values": [
+          {
+            "name": "april",
+            "title": "April"
+          }
+        ]
+      },
       {
         "@context": "https://myswitzerland.io/",
         "@type": "Classification",
@@ -98,8 +118,8 @@
         "name": "requirementconditions",
         "values": [
           {
-            "name": "medium",
-            "title": "Medium"
+            "name": "difficult",
+            "title": "Difficult"
           }
         ]
       },
@@ -116,6 +136,18 @@
           {
             "name": "oversuspensionbridge",
             "title": "Over a suspension bridge"
+          },
+          {
+            "name": "alongwater",
+            "title": "Alongside the water"
+          },
+          {
+            "name": "ontoanalp",
+            "title": "Onto an alp"
+          },
+          {
+            "name": "alongcastles",
+            "title": "Past castles"
           }
         ]
       },
@@ -125,12 +157,20 @@
         "name": "geographicallocations",
         "values": [
           {
+            "name": "atthelake",
+            "title": "At the lake"
+          },
+          {
             "name": "inthealpinemountains",
             "title": "In the alpine mountains"
           },
           {
             "name": "alonggrandtour",
             "title": "Along the Grand Tour"
+          },
+          {
+            "name": "inthecountryside",
+            "title": "In the countryside"
           }
         ]
       },
@@ -151,8 +191,8 @@
         "name": "gadmindurationoverall",
         "values": [
           {
-            "name": "24h",
-            "title": "2 - 4 hours"
+            "name": "46h",
+            "title": "4 - 6 hours"
           }
         ]
       },
@@ -196,8 +236,19 @@
         "name": "requirementsswissmobil",
         "values": [
           {
-            "name": "medium",
-            "title": "Medium"
+            "name": "easy",
+            "title": "Easy"
+          }
+        ]
+      },
+      {
+        "@context": "https://myswitzerland.io/",
+        "@type": "Classification",
+        "name": "direction",
+        "values": [
+          {
+            "name": "disposable",
+            "title": "One way"
           }
         ]
       }
