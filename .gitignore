@@ -3,5 +3,5 @@
 .air.toml
 /src/tmp
 .vscode
-/data/results
+/data/examples
 .DS_Store
