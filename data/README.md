@@ -1,7 +1,7 @@
 # DATA
 
 - The idea is to get all data and convert them to a DB
-- UPDATE: I do not want to pay for hosted postgres, do in-memory duckDB it is (for now)
+- UPDATE: I do not want to pay for hosted postgres, I'll do in-memory duckDB (for now)
 
 ## Data
 
