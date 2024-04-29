@@ -1,6 +1,7 @@
 # DATA
 
 - The idea is to get all data and convert them to a DB
+- UPDATE: I do not want to pay for hosted postgres, do in-memory duckDB it is (for now)
 
 ## Data
 
@@ -16,7 +17,3 @@
 
 - `scrape_hikes.py` to obtain all data
 - note that we need `extended=true` to get all facets from the bulk endpoint
-
-## Convert to SQL database
-
-- TODO
