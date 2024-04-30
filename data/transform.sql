@@ -9,6 +9,7 @@ create view if not exists tours_raw as select * from read_json('/Users/janbenise
 create view if not exists destinations_raw as select * from read_json('/Users/janbenisek/GithubRepos/swisshikefinder/data/results/destinations_data.json');
 create view if not exists attractions_raw as select * from read_json('/Users/janbenisek/GithubRepos/swisshikefinder/data/results/attractions_data.json');
 
+
 /*
 drop view tours_raw;
 drop view destinations_raw;
@@ -21,6 +22,11 @@ drop table attractions;
 select * from tours limit 10;
 select * from destinations limit 10;
 select * from attractions limit 10;
+
+select * from tours_raw limit 10;
+select * from destinations_raw limit 10;
+select * from attractions_raw limit 10;
+
 */
 
 
@@ -144,7 +150,7 @@ inner join class_final c
 
 
 /* ============== ATTRACTIONS ============== */
-create or replace table  attractions as
+create or replace table attractions as
 with 
 btbl as (
     select
@@ -199,3 +205,9 @@ select
 from btbl b
 inner join class_final c
     on b.id = c.id;
+    
+
+COPY tours to '~/GithubRepos/swisshikefinder/data/db/tours.parquet' (FORMAT PARQUET);
+COPY destinations to '~/GithubRepos/swisshikefinder/data/db/destinations.parquet' (FORMAT PARQUET);
+COPY attractions to '~/GithubRepos/swisshikefinder/data/db/attractions.parquet' (FORMAT PARQUET);
+

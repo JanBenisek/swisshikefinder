@@ -17,3 +17,27 @@
 
 - `scrape_hikes.py` to obtain all data
 - note that we need `extended=true` to get all facets from the bulk endpoint
+
+## Installation
+
+- On Mac OS, run: `brew install poetry pyenv pyenv-virtualenv`.
+- Add to `~/.zshrc`:
+
+```bash
+eval "$(pyenv init --path)"
+eval "$(pyenv virtualenv-init -)"
+```
+
+- install python version (order matters):
+- then `pyenv activate swisshikefinder-3.11.8`
+
+```bash
+export PYTHON_VERSION=3.11.8
+export PROJECT_NAME=swisshikefinder
+
+pyenv install --skip-existing $PYTHON_VERSION
+pyenv virtualenv $PYTHON_VERSION $PROJECT_NAME-$PYTHON_VERSION || true
+pyenv local $PROJECT_NAME-$PYTHON_VERSION
+
+poetry install
+```

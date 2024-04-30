@@ -83,16 +83,9 @@ SH = ScrapeHikes(api_key=HIKE_API_KEY)
 # destinations has 4104 elements, 83 pages with 50 elements per page
 SH.get_all_data(api='destinations', write_to='destinations_data')
 
+# %%
 # attractions has 3688 elements, 74 pages with 50 elements per page
 SH.get_all_data(api='attractions', write_to='attractions_data')
 
 # tours has 2493 elements, 50 pages with 50 elements per page
 SH.get_all_data(api='tours', write_to='tours_data')
-
-# %%
-# -------------------------
-# --- CLEAN THE DATA ------
-# -------------------------
-destinations_data = SH.read("./results/destinations_data.json")
-attractions_data = SH.read("./results/attractions_data.json")
-tours_data = SH.read("./results/tours_data.json")
