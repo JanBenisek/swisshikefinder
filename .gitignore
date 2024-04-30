@@ -4,4 +4,5 @@
 /src/tmp
 .vscode
 /data/examples
+/data/results
 .DS_Store

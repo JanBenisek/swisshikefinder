@@ -7,7 +7,7 @@ WORKDIR /app
 
 # recommended to use ./ which forces current working directory (WORKDIR)
 COPY /src ./
-COPY /data/results ./data
+COPY /data/db ./data
 
 # Download go modules
 RUN go mod download
