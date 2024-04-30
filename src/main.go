@@ -47,7 +47,7 @@ func getOneRow(n_rows int64) (Tour, error) {
 	// An album to hold data from the returned row.
 	var tr Tour
 
-	row := db.QueryRow("select identifier, name from read_json('./data/tours_data.json') limit ?", n_rows)
+	row := db.QueryRow("select identifier, name from './data/db/tours_data.parquet' limit ?", n_rows)
 	if err := row.Scan(&tr.ID, &tr.Name); err != nil {
 		if err == sql.ErrNoRows {
 			return tr, fmt.Errorf("id %d: no rows", n_rows)
