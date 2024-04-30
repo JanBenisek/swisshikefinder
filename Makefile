@@ -22,7 +22,7 @@ clean:
 	docker system prune --volumes -f
 
 run_bash:
-	docker run -it --entrypoint /bin/sh $(PROJECT_NAME):latest
+	docker run --rm -it --entrypoint /bin/sh $(PROJECT_NAME):latest
 
 run_port:
 # 	docker run -p 8080:8080 -e "HIKE_API_KEY=$(HIKE_API_KEY)" $(PROJECT_NAME):latest

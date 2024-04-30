@@ -2,7 +2,9 @@ package main //belongs to the main package
 
 import (
 	"bytes" // embed static files in the binary
+	"database/sql"
 	"embed"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http" // webserver
@@ -12,6 +14,7 @@ import (
 	"time"
 
 	"github.com/janbenisek/swiss-hike-finder/hikes"
+	_ "github.com/marcboeker/go-duckdb"
 )
 
 // package level variables - means that it is available anywhere in this package
@@ -26,6 +29,32 @@ type Search struct {
 	NextPage   int
 	TotalPages int
 	Results    *hikes.Results // this will be a pointer
+}
+
+type Tour struct {
+	ID   string
+	Name string
+}
+
+func getOneRow(n_rows int64) (Tour, error) {
+
+	// Get a database handle.
+	db, err := sql.Open("duckdb", "./duck.db?autoinstall_known_extensions=1&autoload_known_extensions=1")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// An album to hold data from the returned row.
+	var tr Tour
+
+	row := db.QueryRow("select identifier, name from read_json('./data/tours_data.json') limit ?", n_rows)
+	if err := row.Scan(&tr.ID, &tr.Name); err != nil {
+		if err == sql.ErrNoRows {
+			return tr, fmt.Errorf("id %d: no rows", n_rows)
+		}
+		return tr, fmt.Errorf("n_rows: %d: %v", n_rows, err)
+	}
+	return tr, nil
 }
 
 func (s *Search) IsLastPage() bool {
@@ -151,6 +180,13 @@ func searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
 
 func main() {
 
+	// Testing the DuckDB
+	tour_sample, err := getOneRow(1)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("ID: %s, Name: %s\n", tour_sample.ID, tour_sample.Name)
+
 	port := os.Getenv("PORT") // will be available at http://localhost:8080
 	if port == "" {
 		port = "8080" //nasty
@@ -177,4 +213,5 @@ func main() {
 	mux.HandleFunc("/search", searchHandler(hikesapi)) // with /search, use the searchHandler
 	mux.HandleFunc("/", indexHandler)                  // handles request to the root
 	http.ListenAndServe(":"+port, mux)                 //start the service and listen to the port with the mux
+
 }
