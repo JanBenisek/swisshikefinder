@@ -29,6 +29,7 @@ eval "$(pyenv virtualenv-init -)"
 ```
 
 - install python version (order matters):
+- then `pyenv activate swisshikefinder-3.11.8`
 
 ```bash
 export PYTHON_VERSION=3.11.8
