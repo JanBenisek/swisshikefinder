@@ -41,3 +41,10 @@ pyenv local $PROJECT_NAME-$PYTHON_VERSION
 
 poetry install
 ```
+
+- formatting
+
+```shell
+ruff check scrape_hikes.py
+ruff format scrape_hikes.py
+```
