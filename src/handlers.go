@@ -17,10 +17,15 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	// r - request received, we access the data (from net/http)
 
 	// buf is a pointer (&) which is nice thing to pass around, rather than copying the entire content
+	if r.Method != http.MethodGet {
+		w.Header().Set("Allow", http.MethodGet)
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 	buf := &bytes.Buffer{}       //the buffer stores results of executing a template in a memory
 	err := tpl.Execute(buf, nil) // executes the template and writes to buffer, (writer, data to pass into the template)
 	if err != nil {
-		// if there is an error, we return 500
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -37,9 +42,14 @@ func searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
 	// pointer to hikesapi
 	// Returns HandlerFunc function
 	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			w.Header().Set("Allow", http.MethodGet)
+			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+			return
+		}
+
 		u, err := url.Parse(r.URL.String()) // we parse the URL from the request
 		if err != nil {
-			// if error, we return 500
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -48,7 +58,6 @@ func searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
 		searchQuery := params.Get("q") // get value of the q param
 		page := params.Get("page")     //get value of the page param
 		if page == "" {
-			// if page if not set, set to 1
 			page = "1"
 		}
 
