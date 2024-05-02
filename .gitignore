@@ -5,4 +5,5 @@
 .vscode
 /data/examples
 /data/results
+/data/.ruff_cache
 .DS_Store
