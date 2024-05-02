@@ -11,7 +11,8 @@ import (
 	"os"       // access os stuff
 	"time"
 
-	"github.com/janbenisek/swiss-hike-finder/hikes"
+	"internal/hikes"
+
 	_ "github.com/marcboeker/go-duckdb"
 )
 

@@ -6,7 +6,8 @@ import (
 	"net/url"  // access os stuff
 	"strconv"
 
-	"github.com/janbenisek/swiss-hike-finder/hikes"
+	"internal/hikes"
+
 	_ "github.com/marcboeker/go-duckdb"
 )
 
