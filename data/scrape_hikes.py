@@ -19,7 +19,7 @@ class ScrapeHikes:
         self.api_key = api_key
 
     def write(self, data, file_name: str):
-        '''write file to destination (overwrites it!)'''
+        """write file to destination (overwrites it!)"""
         write_path = f"./results/{file_name}.json"
         print(f"Saved to {write_path}")
         with open(write_path, "w") as fp:
@@ -30,42 +30,39 @@ class ScrapeHikes:
             result = json.load(fp)
         return result
 
-    def call_api(self, api: str, page: int=0) -> Tuple[Dict, str]:
-        ''' get response from API'''
+    def call_api(self, api: str, page: int = 0) -> Tuple[Dict, str]:
+        """get response from API"""
         response = httpx.get(
-            f"https://opendata.myswitzerland.io/v1/{api}", 
-            headers={
-                "accept": "application/json",
-                "x-api-key": self.api_key
-            }, 
+            f"https://opendata.myswitzerland.io/v1/{api}",
+            headers={"accept": "application/json", "x-api-key": self.api_key},
             params={
                 "facets": "*",
                 "lang": "en",
                 "hitsPerPage": 50,
                 "striphtml": "true",
-                "expand":"true",
-                "page": page
-            }
+                "expand": "true",
+                "page": page,
+            },
         )
         return response.json(), response.status_code
 
     def get_all_data(self, api: str, write_to: str):
-        '''get IDs of all object in given API'''
+        """get IDs of all object in given API"""
         self.result_data = []
         current_page = 0
         not_last_page = True
 
         while not_last_page:
             print(f"Processing {api}, page: {current_page}")
-            
+
             result, status = self.call_api(api=api, page=current_page)
-            total_pages = result['meta']['page']['totalPages']
-            
+            total_pages = result["meta"]["page"]["totalPages"]
+
             print(f" ... Request status: {status}, total pages: {total_pages}")
 
             # add all ids
-            self.result_data.extend(result['data'])
-            
+            self.result_data.extend(result["data"])
+
             current_page += 1
             # 0-based indexing, (83 pages, first with 0 last is 82)
             if (current_page) == total_pages:
@@ -75,17 +72,18 @@ class ScrapeHikes:
             time.sleep(1.5)
 
         self.write(data=self.result_data, file_name=write_to)
-        print('Finished')
+        print("Finished")
+
 
 # %%
 SH = ScrapeHikes(api_key=HIKE_API_KEY)
 
 # destinations has 4104 elements, 83 pages with 50 elements per page
-SH.get_all_data(api='destinations', write_to='destinations_data')
+SH.get_all_data(api="destinations", write_to="destinations_data")
 
 # %%
 # attractions has 3688 elements, 74 pages with 50 elements per page
-SH.get_all_data(api='attractions', write_to='attractions_data')
+SH.get_all_data(api="attractions", write_to="attractions_data")
 
 # tours has 2493 elements, 50 pages with 50 elements per page
-SH.get_all_data(api='tours', write_to='tours_data')
+SH.get_all_data(api="tours", write_to="tours_data")

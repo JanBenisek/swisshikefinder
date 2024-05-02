@@ -12,6 +12,7 @@ ipython = "^8.20.0"
 ipykernel = "^6.28.0"
 python-dotenv = "^1.0.0"
 pandas = "^2.2.2"
+ruff = "^0.4.2"
 
 [build-system]
 requires = ["poetry-core"]
