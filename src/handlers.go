@@ -1,7 +1,8 @@
 package main //belongs to the main package
 
 import (
-	"bytes"    // embed static files in the binary
+	// embed static files in the binary
+	"html/template"
 	"net/http" // webserver
 	"net/url"  // access os stuff
 	"strconv"
@@ -10,6 +11,8 @@ import (
 
 	_ "github.com/marcboeker/go-duckdb"
 )
+
+var tpl = template.Must(template.ParseFS(static, "static/templates/index.html"))
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	// Handles HTTP requests
@@ -24,16 +27,12 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	buf := &bytes.Buffer{}       //the buffer stores results of executing a template in a memory
-	err := tpl.Execute(buf, nil) // executes the template and writes to buffer, (writer, data to pass into the template)
+	// write to template using HTTP writer and return it
+	err := tpl.Execute(w, nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
-	// write content of the buffer to the writer
-	// this sends the generated HTML template as a response
-	buf.WriteTo(w)
 }
 
 func searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
@@ -97,25 +96,11 @@ func searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
 			search.NextPage++
 		}
 
-		// again create a buffer in memory and write the HTML into it
-		buf := &bytes.Buffer{}
-		err = tpl.Execute(buf, search) // this time we pass search data into the template
+		// this time we pass search data into the template and write into the HTTP response writer
+		err = tpl.Execute(w, search)
 		if err != nil {
-			// 500 if error
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-
-		// write content of the buffer into to the HTTP response writer
-		buf.WriteTo(w)
-
-		// just for debugging
-		// fmt.Println("Result: ", results)
-		// fmt.Println("Result.Metadata: ", results.Meta)
-		// fmt.Println("Result.Link: ", results.Links)
-		// fmt.Println("Search Query is: ", searchQuery)
-		// fmt.Println("Page is: ", page)
-		// fmt.Println("Next page is: ", search.NextPage)
-		// fmt.Println("Total pages is: ", search.TotalPages)
 	}
 }

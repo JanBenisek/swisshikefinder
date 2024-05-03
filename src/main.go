@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"embed"
 	"fmt"
-	"html/template"
 	"log"
 	"net/http" // webserver
 	"os"       // access os stuff
@@ -21,7 +20,7 @@ import (
 //go:embed all:static
 var static embed.FS
 
-var tpl = template.Must(template.ParseFS(static, "static/templates/index.html"))
+// var tpl = template.Must(template.ParseFS(static, "static/templates/index.html"))
 
 type Search struct {
 	Query      string
