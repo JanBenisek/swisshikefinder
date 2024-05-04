@@ -52,7 +52,9 @@ func main() {
 	app := conf.AppLog
 
 	app.Port = os.Getenv("PORT") // will be available at http://localhost:8080
+	app.InfoLog.Printf("Port from env %s", app.Port)
 	if app.Port == "" {
+		app.InfoLog.Printf("Port not found in env")
 		app.Port = ":8080" //nasty
 	}
 
@@ -74,6 +76,7 @@ func main() {
 		ErrorLog: app.ErrorLog,
 		Handler:  routes(app), // giving it my routes
 	}
+	app.InfoLog.Printf("Port from env %s", srv.Addr)
 
 	app.InfoLog.Printf("Starting server on %s", app.Port)
 	srv.ListenAndServe() //start the service and listen to the port with the mux
