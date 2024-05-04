@@ -14,7 +14,7 @@ import (
 
 var tpl = template.Must(template.ParseFS(static, "static/templates/index.html"))
 
-func indexHandler(w http.ResponseWriter, r *http.Request) {
+func (app *application) indexHandler(w http.ResponseWriter, r *http.Request) {
 	// Handles HTTP requests
 	// Params:
 	// w - send responses to HTTP request (from net/http)
@@ -23,19 +23,19 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	// buf is a pointer (&) which is nice thing to pass around, rather than copying the entire content
 	if r.Method != http.MethodGet {
 		w.Header().Set("Allow", http.MethodGet)
-		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		app.clientError(w, http.StatusMethodNotAllowed)
 		return
 	}
 
 	// write to template using HTTP writer and return it
 	err := tpl.Execute(w, nil)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		app.serverError(w, err)
 		return
 	}
 }
 
-func searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
+func (app *application) searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
 	// This handles the search endpoint
 	// it uses closure which actually servers the request
 	// Params:
@@ -44,13 +44,13 @@ func searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			w.Header().Set("Allow", http.MethodGet)
-			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+			app.clientError(w, http.StatusMethodNotAllowed)
 			return
 		}
 
 		u, err := url.Parse(r.URL.String()) // we parse the URL from the request
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			app.serverError(w, err)
 			return
 		}
 
@@ -64,8 +64,7 @@ func searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
 		// here we call the API with the params from the request
 		results, err := hikesapi.FetchEverything(searchQuery, page)
 		if err != nil {
-			// as always, return 500 if error
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			app.serverError(w, err)
 			return
 		}
 
@@ -75,8 +74,7 @@ func searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
 
 		nextPage, err := strconv.Atoi(page) //strconv is a package, Atoi is ASCII to integer
 		if err != nil {
-			// return 500 if error
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			app.notFound(w)
 			return
 		}
 
@@ -99,7 +97,7 @@ func searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
 		// this time we pass search data into the template and write into the HTTP response writer
 		err = tpl.Execute(w, search)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			app.serverError(w, err)
 			return
 		}
 	}

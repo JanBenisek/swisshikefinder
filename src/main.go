@@ -20,7 +20,12 @@ import (
 //go:embed all:static
 var static embed.FS
 
-// var tpl = template.Must(template.ParseFS(static, "static/templates/index.html"))
+// TEMP
+type application struct {
+	debugLog *log.Logger
+	infoLog  *log.Logger
+	errorLog *log.Logger
+}
 
 type Search struct {
 	Query      string
@@ -76,23 +81,43 @@ func (s *Search) PreviousPage() int {
 	return s.CurrentPage() - 1
 }
 
+// func getApp() *logger.Application {
+// 	// Access the application struct from the config package
+// 	return logger.AppLog
+// }
+
 func main() {
+
+	// Get the application struct
+	// app := getApp()
+
+	// Access the logger from the conf package
+	// log := logger.AppLog
+	debugLog := log.New(os.Stdout, "DEBUG: ", log.Ldate|log.Ltime)
+	infoLog := log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime)
+	errorLog := log.New(os.Stderr, "ERROR: ", log.Ldate|log.Ltime)
+
+	app := &application{
+		debugLog: errorLog,
+		infoLog:  infoLog,
+		errorLog: errorLog,
+	}
 
 	// Testing the DuckDB
 	tour_sample, err := getOneRow(1)
 	if err != nil {
-		log.Fatal(err)
+		errorLog.Fatal(err)
 	}
-	fmt.Printf("ID: %s, Name: %s\n", tour_sample.ID, tour_sample.Name)
+	debugLog.Printf("ID: %s, Name: %s\n", tour_sample.ID, tour_sample.Name)
 
 	port := os.Getenv("PORT") // will be available at http://localhost:8080
 	if port == "" {
-		port = "8080" //nasty
+		port = ":8080" //nasty
 	}
 
-	apiKey := os.Getenv("HIKE_API_KEY")
+	apiKey := os.Getenv("HIKE_API_KEY") // maybe get rid of it?
 	if apiKey == "" {
-		log.Fatal("Env: apiKey must be set")
+		errorLog.Fatal("Env: apiKey must be set")
 	}
 
 	// better to pass pointer to a client, than passing the whole client around, plus can modify it
@@ -104,12 +129,22 @@ func main() {
 	// checks each requests and routes it to appropriate function
 	mux := http.NewServeMux()
 
+	// my version of server, I can pass my own logger
+	srv := &http.Server{
+		Addr:     port,
+		ErrorLog: errorLog,
+		Handler:  mux,
+	}
+
 	// in index.html another endpoint is /static, we need to serve that ... I THINK???
 	// we are giving it a file server (we need to serve static files), from which it serves the request
+	// TODO: disable access to static files (middleware?)
 	mux.Handle("/static/", http.FileServer(http.FS(static))) //they are close and cached
 
-	mux.HandleFunc("/search", searchHandler(hikesapi)) // with /search, use the searchHandler
-	mux.HandleFunc("/", indexHandler)                  // handles request to the root
-	http.ListenAndServe(":"+port, mux)                 //start the service and listen to the port with the mux
+	mux.HandleFunc("/search", app.searchHandler(hikesapi)) // with /search, use the searchHandler
+	mux.HandleFunc("/", app.indexHandler)                  // handles request to the root
+
+	infoLog.Printf("Starting server on %s", port)
+	srv.ListenAndServe() //start the service and listen to the port with the mux
 
 }
