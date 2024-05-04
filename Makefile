@@ -25,8 +25,7 @@ run_bash:
 	docker run --rm -it --entrypoint /bin/sh $(PROJECT_NAME):latest
 
 run_port:
-# 	docker run -p 8080:8080 -e "HIKE_API_KEY=$(HIKE_API_KEY)" $(PROJECT_NAME):latest
-	docker run -p 8080:8080 -e "HIKE_API_KEY=$(HIKE_API_KEY)" --rm -it $(PROJECT_NAME):latest
+	docker run -p $(PORT):$(PORT) -e "HIKE_API_KEY=$(HIKE_API_KEY)" --rm -it $(PROJECT_NAME):latest
 
 
 .PHONY: build gobuild compose stop rebuild clean run_bash run_port

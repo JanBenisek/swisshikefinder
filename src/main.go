@@ -55,7 +55,8 @@ func main() {
 	app.InfoLog.Printf("Port from env %s", app.Port)
 	if app.Port == "" {
 		app.InfoLog.Printf("Port not found in env")
-		app.Port = ":8080" //nasty
+		app.Port = ":8080"
+		app.InfoLog.Printf("Port set up to be %s", app.Port)
 	}
 
 	app.API_key = os.Getenv("HIKE_API_KEY") // maybe get rid of it?
