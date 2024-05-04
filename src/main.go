@@ -11,22 +11,14 @@ import (
 
 	// access os stuff
 	conf "internal/config"
-	"internal/hikes"
 
 	_ "github.com/marcboeker/go-duckdb"
 )
 
 // package level variables - means that it is available anywhere in this package
-
+//
 //go:embed all:static
 var static embed.FS
-
-type Search struct {
-	Query      string
-	NextPage   int
-	TotalPages int
-	Results    *hikes.Results // this will be a pointer
-}
 
 type Tour struct {
 	ID   string
@@ -52,27 +44,6 @@ func getOneRow(n_rows int64) (Tour, error) {
 		return tr, fmt.Errorf("n_rows: %d: %v", n_rows, err)
 	}
 	return tr, nil
-}
-
-func (s *Search) IsLastPage() bool {
-	// Operate on the struct Search,
-	// returns bool (if last page)
-	return s.NextPage >= s.TotalPages
-}
-
-func (s *Search) CurrentPage() int {
-	// Operates on the struct Search
-	// returns int (current page number)
-	if s.NextPage == 1 {
-		return s.NextPage
-	}
-	return s.NextPage - 1
-}
-
-func (s *Search) PreviousPage() int {
-	// Operates on the struct Search
-	// returns int (previous page number)
-	return s.CurrentPage() - 1
 }
 
 func main() {

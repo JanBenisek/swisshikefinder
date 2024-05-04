@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	conf "internal/config"
+	"internal/hikes"
 	"net/http"
 	"runtime/debug"
 )
@@ -27,4 +28,33 @@ func clientError(app *conf.Application, w http.ResponseWriter, status int) {
 // the user.
 func notFound(app *conf.Application, w http.ResponseWriter) {
 	clientError(app, w, http.StatusNotFound)
+}
+
+// TODO: Better place to put these?
+type Search struct {
+	Query      string
+	NextPage   int
+	TotalPages int
+	Results    *hikes.Results // this will be a pointer
+}
+
+func (s *Search) IsLastPage() bool {
+	// Operate on the struct Search,
+	// returns bool (if last page)
+	return s.NextPage >= s.TotalPages
+}
+
+func (s *Search) CurrentPage() int {
+	// Operates on the struct Search
+	// returns int (current page number)
+	if s.NextPage == 1 {
+		return s.NextPage
+	}
+	return s.NextPage - 1
+}
+
+func (s *Search) PreviousPage() int {
+	// Operates on the struct Search
+	// returns int (previous page number)
+	return s.CurrentPage() - 1
 }

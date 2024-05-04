@@ -23,7 +23,7 @@ func routes(app *conf.Application) *http.ServeMux {
 
 	// in index.html another endpoint is /static, we need to serve that ... I THINK???
 	// we are giving it a file server (we need to serve static files), from which it serves the request
-	// TODO: disable access to static files (middleware?)
+	// TODO: disable access to static files (through middleware)
 	mux.Handle("/static/", http.FileServer(http.FS(static))) //they are close and cached
 
 	mux.HandleFunc("/search", searchHandler(app, hikesapi)) // with /search, use the searchHandler
