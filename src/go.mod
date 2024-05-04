@@ -3,12 +3,12 @@ module github.com/janbenisek/swiss-hike-finder
 go 1.20
 
 replace internal/hikes => ./internal/hikes
-replace internal/logger => ./internal/logger
+replace internal/config => ./internal/config
 
 require (
 	github.com/marcboeker/go-duckdb v1.6.3
 	internal/hikes v1.0.0
-	internal/logger v1.0.0
+	internal/config v1.0.0
 )
 
 require (
