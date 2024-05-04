@@ -51,14 +51,8 @@ func main() {
 	// Get the application struct and set some env values
 	app := conf.AppLog
 
-	app.Port = os.Getenv("PORT") // will be available at http://localhost:8080
-	app.InfoLog.Printf("Port from env %s", app.Port)
-	if app.Port == "" {
-		app.InfoLog.Printf("Port not found in env")
-		app.Port = ":8080"
-		app.InfoLog.Printf("Port set up to be %s", app.Port)
-	}
-
+	// Env var? Digital Ocean always listens on 8080
+	app.Port = ":8080"                      // will be available at http://localhost:8080
 	app.API_key = os.Getenv("HIKE_API_KEY") // maybe get rid of it?
 	if app.API_key == "" {
 		app.ErrorLog.Fatal("Env: apiKey must be set")
@@ -77,7 +71,6 @@ func main() {
 		ErrorLog: app.ErrorLog,
 		Handler:  routes(app), // giving it my routes
 	}
-	app.InfoLog.Printf("Port from srv %s", srv.Addr)
 
 	app.InfoLog.Printf("Starting server on %s", app.Port)
 	srv.ListenAndServe() //start the service and listen to the port with the mux

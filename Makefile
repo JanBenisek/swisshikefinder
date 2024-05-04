@@ -27,5 +27,10 @@ run_bash:
 run_port:
 	docker run -p $(PORT):$(PORT) -e "HIKE_API_KEY=$(HIKE_API_KEY)" --rm -it $(PROJECT_NAME):latest
 
+run_package:
+	docker pull ghcr.io/janbenisek/swisshikefinder:latest
+	docker run -p $(PORT):$(PORT) -e "HIKE_API_KEY=$(HIKE_API_KEY)" --rm -it ghcr.io/janbenisek/swisshikefinder:latest
 
-.PHONY: build gobuild compose stop rebuild clean run_bash run_port
+
+
+.PHONY: build gobuild compose stop rebuild clean run_bash run_port run_package
