@@ -51,7 +51,7 @@ func main() {
 	// Get the application struct and set some env values
 	app := conf.AppLog
 
-	// Env var? Digital Ocean always listens on 8080
+	// Digital Ocean always listens on 8080 and has the env var set
 	app.Port = os.Getenv("PORT") // will be available at http://localhost:8080
 	if app.Port == "" {
 		app.InfoLog.Printf("Port not found in .env, using default 8080")
