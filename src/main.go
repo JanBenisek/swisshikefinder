@@ -101,7 +101,7 @@ func main() {
 	srv := &http.Server{
 		Addr:     app.Port,
 		ErrorLog: app.ErrorLog,
-		Handler:  routes(app),
+		Handler:  routes(app), // giving it my routes
 	}
 
 	app.InfoLog.Printf("Starting server on %s", app.Port)
