@@ -77,7 +77,7 @@ func main() {
 		Handler:  routes(app), // giving it my routes
 	}
 
-	app.InfoLog.Printf("Starting server on %s", app.Port)
+	app.InfoLog.Printf("Starting server on %s", srv.Addr)
 	srv.ListenAndServe() //start the service and listen to the port with the mux
 
 }
