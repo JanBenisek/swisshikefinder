@@ -12,6 +12,8 @@ type Application struct {
 	DebugLog *log.Logger
 	InfoLog  *log.Logger
 	ErrorLog *log.Logger
+	Port     string // New field for port
+	API_key  string // New field for port
 }
 
 var AppLog *Application

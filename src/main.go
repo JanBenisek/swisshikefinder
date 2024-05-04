@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"log"
 	"net/http" // webserver
-	"os"       // access os stuff
-	"time"
+	"os"
 
+	// access os stuff
 	conf "internal/config"
 	"internal/hikes"
 
@@ -77,8 +77,18 @@ func (s *Search) PreviousPage() int {
 
 func main() {
 
-	// Get the application struct
+	// Get the application struct and set some env values
 	app := conf.AppLog
+
+	app.Port = os.Getenv("PORT") // will be available at http://localhost:8080
+	if app.Port == "" {
+		app.Port = ":8080" //nasty
+	}
+
+	app.API_key = os.Getenv("HIKE_API_KEY") // maybe get rid of it?
+	if app.API_key == "" {
+		app.ErrorLog.Fatal("Env: apiKey must be set")
+	}
 
 	// Testing the DuckDB
 	tour_sample, err := getOneRow(1)
@@ -87,41 +97,14 @@ func main() {
 	}
 	app.DebugLog.Printf("ID: %s, Name: %s\n", tour_sample.ID, tour_sample.Name)
 
-	port := os.Getenv("PORT") // will be available at http://localhost:8080
-	if port == "" {
-		port = ":8080" //nasty
-	}
-
-	apiKey := os.Getenv("HIKE_API_KEY") // maybe get rid of it?
-	if apiKey == "" {
-		app.ErrorLog.Fatal("Env: apiKey must be set")
-	}
-
-	// better to pass pointer to a client, than passing the whole client around, plus can modify it
-	myClient := &http.Client{Timeout: 10 * time.Second} // create a new HTTP client with 10s timeout
-	// not a pointer because the function returns a pointer
-	hikesapi := hikes.NewClient(myClient, apiKey, 3) // inits new client for the API with page size
-
-	// creates new HTTP server multiplexer
-	// checks each requests and routes it to appropriate function
-	mux := http.NewServeMux()
-
 	// my version of server, I can pass my own logger
 	srv := &http.Server{
-		Addr:     port,
+		Addr:     app.Port,
 		ErrorLog: app.ErrorLog,
-		Handler:  mux,
+		Handler:  routes(app),
 	}
 
-	// in index.html another endpoint is /static, we need to serve that ... I THINK???
-	// we are giving it a file server (we need to serve static files), from which it serves the request
-	// TODO: disable access to static files (middleware?)
-	mux.Handle("/static/", http.FileServer(http.FS(static))) //they are close and cached
-
-	mux.HandleFunc("/search", searchHandler(app, hikesapi)) // with /search, use the searchHandler
-	mux.HandleFunc("/", indexHandler(app))                  // handles request to the root
-
-	app.InfoLog.Printf("Starting server on %s", port)
+	app.InfoLog.Printf("Starting server on %s", app.Port)
 	srv.ListenAndServe() //start the service and listen to the port with the mux
 
 }
