@@ -7,7 +7,6 @@ import (
 	"net/url"  // access os stuff
 	"strconv"
 
-	conf "internal/config"
 	"internal/hikes"
 
 	_ "github.com/marcboeker/go-duckdb"
@@ -15,7 +14,7 @@ import (
 
 var tpl = template.Must(template.ParseFS(static, "static/templates/index.html"))
 
-func indexHandler(app *conf.Application) http.HandlerFunc {
+func (app *application) indexHandler() http.HandlerFunc {
 	// Handles HTTP requests
 	// Params:
 	// w - send responses to HTTP request (from net/http)
@@ -24,7 +23,7 @@ func indexHandler(app *conf.Application) http.HandlerFunc {
 		// buf is a pointer (&) which is nice thing to pass around, rather than copying the entire content
 		if r.Method != http.MethodGet {
 			w.Header().Set("Allow", http.MethodGet)
-			clientError(app, w, http.StatusMethodNotAllowed)
+			app.clientError(w, http.StatusMethodNotAllowed)
 			return
 		}
 
@@ -37,7 +36,7 @@ func indexHandler(app *conf.Application) http.HandlerFunc {
 	}
 }
 
-func searchHandler(app *conf.Application, hikesapi *hikes.Client) http.HandlerFunc {
+func (app *application) searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
 	// This handles the search endpoint
 	// it uses closure which actually servers the request
 	// Params:
@@ -46,13 +45,13 @@ func searchHandler(app *conf.Application, hikesapi *hikes.Client) http.HandlerFu
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			w.Header().Set("Allow", http.MethodGet)
-			clientError(app, w, http.StatusMethodNotAllowed)
+			app.clientError(w, http.StatusMethodNotAllowed)
 			return
 		}
 
 		u, err := url.Parse(r.URL.String()) // we parse the URL from the request
 		if err != nil {
-			serverError(app, w, err)
+			app.serverError(w, err)
 			return
 		}
 
@@ -66,7 +65,7 @@ func searchHandler(app *conf.Application, hikesapi *hikes.Client) http.HandlerFu
 		// here we call the API with the params from the request
 		results, err := hikesapi.FetchEverything(searchQuery, page)
 		if err != nil {
-			serverError(app, w, err)
+			app.serverError(w, err)
 			return
 		}
 
@@ -76,7 +75,7 @@ func searchHandler(app *conf.Application, hikesapi *hikes.Client) http.HandlerFu
 
 		nextPage, err := strconv.Atoi(page) //strconv is a package, Atoi is ASCII to integer
 		if err != nil {
-			notFound(app, w)
+			app.notFound(w)
 			return
 		}
 
@@ -99,7 +98,7 @@ func searchHandler(app *conf.Application, hikesapi *hikes.Client) http.HandlerFu
 		// this time we pass search data into the template and write into the HTTP response writer
 		err = tpl.Execute(w, search)
 		if err != nil {
-			serverError(app, w, err)
+			app.serverError(w, err)
 			return
 		}
 	}

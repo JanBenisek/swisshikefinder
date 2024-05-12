@@ -4,13 +4,12 @@ import (
 	"net/http"
 	"time"
 
-	conf "internal/config"
 	"internal/hikes"
 
 	_ "github.com/marcboeker/go-duckdb"
 )
 
-func routes(app *conf.Application) *http.ServeMux {
+func (app *application) routes() *http.ServeMux {
 
 	// better to pass pointer to a client, than passing the whole client around, plus can modify it
 	myClient := &http.Client{Timeout: 10 * time.Second} // create a new HTTP client with 10s timeout
@@ -26,8 +25,8 @@ func routes(app *conf.Application) *http.ServeMux {
 	// TODO: disable access to static files (through middleware)
 	mux.Handle("/static/", http.FileServer(http.FS(static))) //they are close and cached
 
-	mux.HandleFunc("/search", searchHandler(app, hikesapi)) // with /search, use the searchHandler
-	mux.HandleFunc("/", indexHandler(app))                  // handles request to the root
+	mux.HandleFunc("/search", app.searchHandler(hikesapi)) // with /search, use the searchHandler
+	mux.HandleFunc("/", app.indexHandler())                // handles request to the root
 
 	return mux
 }

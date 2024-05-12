@@ -5,42 +5,134 @@
  * TO-DO: special schema and user?
  * */
 
-create view if not exists tours_raw as select * from read_json('/Users/janbenisek/GithubRepos/swisshikefinder/data/results/tours_data.json');
-create view if not exists destinations_raw as select * from read_json('/Users/janbenisek/GithubRepos/swisshikefinder/data/results/destinations_data.json');
-create view if not exists attractions_raw as select * from read_json('/Users/janbenisek/GithubRepos/swisshikefinder/data/results/attractions_data.json');
+create schema if not exists bronze;
+create schema if not exists silver;
+create schema if not exists gold;
+
+create view if not exists bronze.tours as select * from read_json('/Users/janbenisek/GithubRepos/swisshikefinder/data/raw_data/tours_data.json');
+create view if not exists bronze.destinations as select * from read_json('/Users/janbenisek/GithubRepos/swisshikefinder/data/raw_data/destinations_data.json');
+create view if not exists bronze.attractions as select * from read_json('/Users/janbenisek/GithubRepos/swisshikefinder/data/raw_data/attractions_data.json');
+
+
+--select * from read_json('./data/raw_data/tours_data.json');
+--select * from read_json('/data/raw_data/tours_data.json');
+-- /Users/janbenisek/GithubRepos/swisshikefinder/data/raw_data/tours_data.json
 
 
 /*
-drop view tours_raw;
-drop view destinations_raw;
-drop view attractions_raw;
+drop view bronze.tours;
+drop view bronze.destinations;
+drop view bronze.attractions;
 
-drop table tours;
-drop table destinations;
-drop table attractions;
+drop schema if exists bronze cascade;
+drop schema if exists silver cascade;
+drop schema if exists gold cascade;
 
-select * from tours limit 10;
-select * from destinations limit 10;
-select * from attractions limit 10;
+-- TOURS
+drop table gold.tour_tourist_types;
+drop table gold.tour_itinerary;
+drop table gold.tour_images;
+drop table gold.tour_classification;
+drop table gold.tours;
 
-select * from tours_raw limit 10;
-select * from destinations_raw limit 10;
-select * from attractions_raw limit 10;
+select * from gold.tour_tourist_types limit 10;
+select * from gold.tour_itinerary limit 10;
+select * from gold.tour_images limit 10;
+select * from gold.tour_classification limit 10;
+select * from gold.tours limit 10;
 
 */
 
 
 /* ============== TOURS ============== */
-create or replace table tours as
-with 
-btbl as (
+-- Tourist types of Tour, eg. Snow Lover, Outdoor Enthusiast - Biker and Cyclist, ...
+-- ID 1:m tourist_type
+create or replace table gold.tour_tourist_types as
+select
+    identifier as ID,
+    unnest(touristType) as tourist_type
+from bronze.tours;
+
+
+-- Itinerary of Tour, eg. Tanzboden -> Chrüzegg, ...
+-- ID 1:m name
+create or replace table gold.tour_itinerary as
+with btbl as (
     select
-        identifier as id,
+        identifier as ID,
+        unnest(itinerary, recursive := true) as itinerary
+    from bronze.tours
+    )
+select
+    ID,
+    "@type" as type,
+    identifier as itinerary_id,
+    name,
+    url
+from btbl;
+
+
+-- Images of Tour, eg. url1, url2, ...
+-- ID 1:m url
+create or replace table gold.tour_images as
+with btbl as (
+    select
+        identifier as ID,
+        unnest(image, recursive := true) as image
+    from bronze.tours
+    )
+select
+    ID,
+    "@type" as type,
+    keywords,
+    publisher,
+    encodingFormat as encoding_format,
+    url,
+    name,
+    copyrightHolder as copyright_holder,
+    width,
+    height
+from btbl;
+
+
+-- Classification of Tour, eg. National, At the lake, ...
+-- Note: might be usefu to filter by `name` (landscape, views, reachabilitylocation, ...)
+-- ID 1:m name/classification
+create or replace table gold.tour_classification as
+with btbl as (
+    select
+        identifier as ID,
+        unnest(classification, recursive := true) as image
+    from bronze.tours
+    ),
+explode_values as (
+    select
+        ID,
+        "@context" as context,
+        name,
+        title,
+        unnest(values, recursive := true) as vals
+    from btbl
+    )
+select
+    ID,
+    context,
+    name,
+    title_1 as classification
+    
+from explode_values
+where name_1 != 'bysa';
+
+
+-- Tour, eg. National, At the lake, ...
+-- ID 1:1 "attributes in the table"
+create or replace table gold.tours as
+with btbl as (
+    select
+        identifier as ID,
         "@type" as record_type,
         name,
         abstract,
-        touristType[1] as tourist_type, -- mostly 1, sometimes 2 or 3, explode later
-        itinerary, -- probably later explode into separate table
         partOfTrip.identifier as part_of_trip_id,
         url as url_mysw,
         geo.latitude as lat,
@@ -60,154 +152,21 @@ btbl as (
         specs.durationReverseDirection as duration_reverse_direction,
         specs.ascent as ascent,
         specs.descent as descent,
-        specs.barrierFree as barrier_free,
-        image[1].url as image_url -- it is alwyas just one (in this dataset at least)
+        specs.barrierFree as barrier_free
         
-    from tours_raw
-    ),
--- extra effort to aggregate classification tags (let's review this later, maybe also a separate table?)
-class_unnest_1 as (
-    select
-        identifier,
-        unnest(classification, recursive := true)
-    from tours_raw 
-    ),
-class_unnest_2 as (
-    select 
-        identifier,
-        name,
-        unnest(values) as cls
-    from class_unnest_1
-    ),
-class_final as (
-    select
-        identifier as id,
-        list(cls.title) as classifications
-    from class_unnest_2
-    where cls.name != 'bysa'
-    group by
-        identifier
+    from bronze.tours
     )
 select
-    b.*,
-    c.classifications
-from btbl b
-inner join class_final c
-    on b.id = c.id;
+    b.*
+from btbl b;
 
 
-/* ============== DESTINATIONS ============== */
-create or replace table  destinations as
-with 
-btbl as (
-    select
-        identifier as id,
-        "@type" as record_type,
-        name,
-        category,
-        abstract,
-        description,
-        photo,
-        url as url_mysw,
-        additionalDescriptions as additional_description, -- into a separate table
-        address, -- also into separate table later
-        geo.latitude as lat,
-        geo.longitude as lon,
-        image, -- list of images
-        containedInPlace as contained_in_destination -- into a separate table later
-    
-    from destinations_raw
-    ),
--- extra effort to aggregate classification tags (let's review this later, maybe also a separate table?)
-class_unnest_1 as (
-    select
-        identifier,
-        unnest(classification, recursive := true)
-    from destinations_raw 
-    ),
-class_unnest_2 as (
-    select 
-        identifier,
-        name,
-        unnest(values) as cls
-    from class_unnest_1
-    ),
-class_final as (
-    select
-        identifier as id,
-        list(cls.title) as classifications
-    from class_unnest_2
-    where cls.name != 'bysa'
-    group by
-        identifier
-    )
-select
-    b.*,
-    c.classifications
-from btbl b
-inner join class_final c
-    on b.id = c.id;
+/* ============== EXPPORT DB ============== */
+EXPORT DATABASE '/Users/janbenisek/GithubRepos/swisshikefinder/data/db' (
+    FORMAT PARQUET,
+    COMPRESSION ZSTD
+);
 
 
-/* ============== ATTRACTIONS ============== */
-create or replace table attractions as
-with 
-btbl as (
-    select
-        identifier as id,
-        "@type" as record_type,
-        name,
-        description,
-        address, -- explode into separate table later
-        geo.latitude as lat,
-        geo.longitude as lon,
-        image, -- explode later
-        containedInPlace.identifier as contained_in_destination_id,
-        availableLanguage as available_language,
-        event, --clean up later if needed
-        isAccessibleForFree as is_accessible_for_free,
-        price.minPrice as price, -- there is more, add if needed later
-        selfGuided as self_guided,
-        reservationRequired as reservation_required,
-        email,
-        telephone,
-        url,
-        photo
-
-    from attractions_raw
-    ),
--- extra effort to aggregate classification tags (let's review this later, maybe also a separate table?)
-class_unnest_1 as (
-    select
-        identifier,
-        unnest(classification, recursive := true)
-    from attractions_raw 
-    ),
-class_unnest_2 as (
-    select 
-        identifier,
-        name,
-        unnest(values) as cls
-    from class_unnest_1
-    ),
-class_final as (
-    select
-        identifier as id,
-        list(cls.title) as classifications
-    from class_unnest_2
-    where cls.name != 'bysa'
-    group by
-        identifier
-    )
-select
-    b.*,
-    c.classifications
-from btbl b
-inner join class_final c
-    on b.id = c.id;
-    
-
-COPY tours to '~/GithubRepos/swisshikefinder/data/db/tours.parquet' (FORMAT PARQUET);
-COPY destinations to '~/GithubRepos/swisshikefinder/data/db/destinations.parquet' (FORMAT PARQUET);
-COPY attractions to '~/GithubRepos/swisshikefinder/data/db/attractions.parquet' (FORMAT PARQUET);
-
+/* ============== EXPPORT DB ============== */
+IMPORT DATABASE '/Users/janbenisek/GithubRepos/swisshikefinder/data/db/';

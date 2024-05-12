@@ -7,7 +7,8 @@ WORKDIR /app
 
 # recommended to use ./ which forces current working directory (WORKDIR)
 COPY /src ./
-COPY /data/db ./data
+COPY /data/db ./db
+COPY /data/raw_data ./raw_data
 
 # Download go modules
 RUN go mod download
@@ -27,12 +28,22 @@ RUN go test -v ./...
 FROM ubuntu:latest AS build-release-stage
 
 # plain ubuntu has no tls certificates (maybe build and move from base?)
-RUN apt-get update && apt-get install -y ca-certificates
+RUN apt-get update && apt-get install -y ca-certificates unzip wget
+
+# TEMP TO TEST DUCKDB
+RUN mkdir -p /opt/duckdb && \
+    wget -O /opt/duckdb/duckdb_cli.zip https://github.com/duckdb/duckdb/releases/download/v0.10.2/duckdb_cli-linux-amd64.zip && \
+    unzip /opt/duckdb/duckdb_cli.zip -d /opt/duckdb && \
+    rm /opt/duckdb/duckdb_cli.zip
+
+# Set the PATH environment variable to include DuckDB CLI
+ENV PATH="/opt/duckdb:${PATH}"
 
 WORKDIR /app
 
 COPY --from=build-stage app/swiss-hiker-bin ./swiss-hiker-bin
-COPY --from=build-stage app/data/ ./data/
+COPY --from=build-stage app/db/ ./db/
+COPY --from=build-stage app/raw_data/ ./raw_data/
 
 EXPOSE 8080
 
