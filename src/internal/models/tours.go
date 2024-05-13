@@ -30,16 +30,55 @@ type Tour struct {
 }
 
 // Define a SnippetModel type which wraps a sql.DB connection pool.
-type TourModel struct {
+type TourModels struct {
 	DB *sql.DB
 }
 
-func (m *TourModel) GetTour(n_rows int) (*Tour, error) {
+func (m *TourModels) SearchTour(query string) ([]*Tour, error) {
 
+	// initialise empty slice of pointers
+	tours := []*Tour{}
+
+	stmt := `select 
+		t.ID, 
+		t.record_type,
+		t.name
+	from gold.tours t
+	where t.ID in (select ID from gold.tour_itinerary where name ilike $1)
+	limit 10`
+
+	rows, err := m.DB.Query(stmt, query)
+	if err != nil {
+		return nil, err
+	}
+	// close before the method SearchTour returns
+	// should be after we check for an error, otherwise get panic trying to close nil rows
+	defer rows.Close()
+
+	for rows.Next() {
+		t := &Tour{} //pointer to Tour
+		err := rows.Scan(&t.ID, &t.Record_type, &t.Name)
+		if err != nil {
+			return nil, err
+		}
+		tours = append(tours, t)
+	}
+	// important to collect errors after the iterations
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return tours, nil
+}
+
+func (m *TourModels) GetTour(n_rows int) (*Tour, error) {
+
+	// initialise pointer to the new struct
 	t := &Tour{}
 
 	// row := m.DB.QueryRow("select ID, name, record_type from './data/gold_tours.parquet' limit ?", n_rows)
 	row := m.DB.QueryRow("select ID, name, record_type from gold.tours limit ?", n_rows)
+	// note that we are passing pointers
 	err := row.Scan(&t.ID, &t.Record_type, &t.Name)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {

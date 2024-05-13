@@ -10,13 +10,9 @@ create schema if not exists silver;
 create schema if not exists gold;
 
 create view if not exists bronze.tours as select * from read_json('/Users/janbenisek/GithubRepos/swisshikefinder/data/raw_data/tours_data.json');
-create view if not exists bronze.destinations as select * from read_json('/Users/janbenisek/GithubRepos/swisshikefinder/data/raw_data/destinations_data.json');
-create view if not exists bronze.attractions as select * from read_json('/Users/janbenisek/GithubRepos/swisshikefinder/data/raw_data/attractions_data.json');
+-- create view if not exists bronze.destinations as select * from read_json('/Users/janbenisek/GithubRepos/swisshikefinder/data/raw_data/destinations_data.json');
+-- create view if not exists bronze.attractions as select * from read_json('/Users/janbenisek/GithubRepos/swisshikefinder/data/raw_data/attractions_data.json');
 
-
---select * from read_json('./data/raw_data/tours_data.json');
---select * from read_json('/data/raw_data/tours_data.json');
--- /Users/janbenisek/GithubRepos/swisshikefinder/data/raw_data/tours_data.json
 
 
 /*
@@ -34,6 +30,8 @@ drop table gold.tour_itinerary;
 drop table gold.tour_images;
 drop table gold.tour_classification;
 drop table gold.tours;
+
+select * from bronze.tours limit 10;
 
 select * from gold.tour_tourist_types limit 10;
 select * from gold.tour_itinerary limit 10;
@@ -162,11 +160,12 @@ from btbl b;
 
 
 /* ============== EXPPORT DB ============== */
-EXPORT DATABASE '/Users/janbenisek/GithubRepos/swisshikefinder/data/db' (
+--EXPORT DATABASE '/Users/janbenisek/GithubRepos/swisshikefinder/data/db' (
+EXPORT DATABASE '/Users/janbenisek/GithubRepos/swisshikefinder/data/db2' (
     FORMAT PARQUET,
     COMPRESSION ZSTD
 );
 
 
 /* ============== EXPPORT DB ============== */
-IMPORT DATABASE '/Users/janbenisek/GithubRepos/swisshikefinder/data/db/';
+IMPORT DATABASE '/Users/janbenisek/GithubRepos/swisshikefinder/data/db2';

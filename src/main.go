@@ -4,6 +4,7 @@ import (
 	// embed static files in the binary
 	"database/sql"
 	"embed"
+
 	"errors"
 	"log"
 	"net/http" // webserver
@@ -43,7 +44,7 @@ type application struct {
 	ErrorLog *log.Logger
 	Port     string
 	API_key  string
-	Tours    *models.TourModel
+	Tours    *models.TourModels
 }
 
 func main() {
@@ -64,7 +65,7 @@ func main() {
 		InfoLog:  InfoLog,
 		DebugLog: DebugLog,
 		ErrorLog: ErrorLog,
-		Tours:    &models.TourModel{DB: db},
+		Tours:    &models.TourModels{DB: db},
 	}
 
 	// Digital Ocean always listens on 8080 and has the env var set
@@ -85,7 +86,7 @@ func main() {
 	// }
 	// app.DebugLog.Printf("ID: %s, Name: %s\n", tour_sample.ID, tour_sample.Name)
 
-	tour, err := app.Tours.GetTour(1)
+	tours, err := app.Tours.SearchTour("zug")
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecord) {
 			// app.notFound(w)
@@ -96,7 +97,9 @@ func main() {
 		}
 		// return
 	}
-	app.DebugLog.Printf("ID: %s, Record_type: %s, Name: %s\n", tour.ID, tour.Record_type, tour.Name)
+	for _, tour := range tours {
+		app.DebugLog.Printf("ID: %s, Record_type: %s, Name: %s\n", tour.ID, tour.Record_type, tour.Name)
+	}
 
 	// my version of server, I can pass my own logger
 	srv := &http.Server{

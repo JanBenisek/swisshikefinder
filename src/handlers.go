@@ -30,7 +30,7 @@ func (app *application) indexHandler() http.HandlerFunc {
 		// write to template using HTTP writer and return it
 		err := tpl.Execute(w, nil)
 		if err != nil {
-			// app.serverError(w, err)
+			app.serverError(w, err)
 			return
 		}
 	}
