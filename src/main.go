@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"embed"
 
-	"errors"
 	"log"
 	"net/http" // webserver
 	"os"
@@ -78,27 +77,6 @@ func main() {
 	app.API_key = os.Getenv("HIKE_API_KEY") // maybe get rid of it?
 	if app.API_key == "" {
 		app.ErrorLog.Fatal("Env: apiKey must be set")
-	}
-
-	// tour_sample, err := getOneRow(1)
-	// if err != nil {
-	// 	app.ErrorLog.Fatal(err)
-	// }
-	// app.DebugLog.Printf("ID: %s, Name: %s\n", tour_sample.ID, tour_sample.Name)
-
-	tours, err := app.Tours.SearchTour("zug")
-	if err != nil {
-		if errors.Is(err, models.ErrNoRecord) {
-			// app.notFound(w)
-			app.ErrorLog.Fatal(err)
-		} else {
-			// app.serverError(w, err)
-			app.ErrorLog.Fatal(err)
-		}
-		// return
-	}
-	for _, tour := range tours {
-		app.DebugLog.Printf("ID: %s, Record_type: %s, Name: %s\n", tour.ID, tour.Record_type, tour.Name)
 	}
 
 	// my version of server, I can pass my own logger

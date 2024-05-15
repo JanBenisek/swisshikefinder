@@ -6,27 +6,13 @@ import (
 )
 
 type Tour struct {
-	ID          string
-	Record_type string
-	Name        string
-	// Part_of_trip_id            string
-	// Url_mysw                   string
-	// Lat                        float64
-	// Lon                        float64
-	// Elevation                  int64
-	// Logo_url                   string
-	// Stage                      string
-	// Requirements_technical     string
-	// Requirements_endurance     string
-	// Route_category             string
-	// Url_swmo                   string
-	// Season                     string
-	// Distance                   int64
-	// Duration                   int64
-	// Duration_reverse_direction int64
-	// Ascent                     int64
-	// Descent                    int64
-	// Barrier_free               bool
+	ID           string
+	Record_type  string
+	Name         string
+	Abstract     string
+	Logo_url     string
+	Url_swmo     string
+	Record_count int
 }
 
 // Define a SnippetModel type which wraps a sql.DB connection pool.
@@ -34,20 +20,40 @@ type TourModels struct {
 	DB *sql.DB
 }
 
-func (m *TourModels) SearchTour(query string) ([]*Tour, error) {
+func (m *TourModels) SearchTour(query string, limit int, offset int) ([]*Tour, error) {
 
 	// initialise empty slice of pointers
 	tours := []*Tour{}
 
-	stmt := `select 
-		t.ID, 
-		t.record_type,
-		t.name
-	from gold.tours t
-	where t.ID in (select ID from gold.tour_itinerary where name ilike $1)
-	limit 10`
+	// using offset might not be the efficient, but who cares with this tiny dataset
+	// another option is to have auto-increment id
+	// also I need round-trip for the count, hacking it into one query for now
+	stmt := `
+		with 
+		search_q as (
+			select 
+				t.ID, 
+				t.record_type,
+				t.name, 
+				t.abstract,
+				t.logo_url,
+				t.url_swmo
+			from gold.tours t
+			where t.ID in (select ID from gold.tour_itinerary where name ilike $1)
+		), 
+		count_q as (
+			select count(*) as cnt from search_q
+		)
+		select
+			s.*,
+			c.cnt
+		from search_q s
+		cross join count_q c
+		limit $2
+		offset $3
+	`
 
-	rows, err := m.DB.Query(stmt, query)
+	rows, err := m.DB.Query(stmt, query, limit, offset)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +63,7 @@ func (m *TourModels) SearchTour(query string) ([]*Tour, error) {
 
 	for rows.Next() {
 		t := &Tour{} //pointer to Tour
-		err := rows.Scan(&t.ID, &t.Record_type, &t.Name)
+		err := rows.Scan(&t.ID, &t.Record_type, &t.Name, &t.Abstract, &t.Logo_url, &t.Url_swmo, &t.Record_count)
 		if err != nil {
 			return nil, err
 		}

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"internal/hikes"
+	"internal/models"
 	"net/http"
 	"runtime/debug"
 )
@@ -31,16 +31,17 @@ func (app *application) notFound(w http.ResponseWriter) {
 
 // TODO: Better place to put these?
 type Search struct {
-	Query      string
-	NextPage   int
-	TotalPages int
-	Results    *hikes.Results // this will be a pointer
+	Query        string
+	NextPage     int
+	TotalPages   int
+	TotalResults int
+	Results      []*models.Tour // this will be a pointer
 }
 
 func (s *Search) IsLastPage() bool {
 	// Operate on the struct Search,
 	// returns bool (if last page)
-	return s.NextPage >= s.TotalPages
+	return s.NextPage > s.TotalPages
 }
 
 func (s *Search) CurrentPage() int {

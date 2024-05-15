@@ -2,12 +2,14 @@ package main //belongs to the main package
 
 import (
 	// embed static files in the binary
+	"errors"
 	"html/template"
+	"math"
 	"net/http" // webserver
 	"net/url"  // access os stuff
 	"strconv"
 
-	"internal/hikes"
+	"internal/models"
 
 	_ "github.com/marcboeker/go-duckdb"
 )
@@ -36,11 +38,10 @@ func (app *application) indexHandler() http.HandlerFunc {
 	}
 }
 
-func (app *application) searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
+func (app *application) searchHandler(page_size int) http.HandlerFunc {
 	// This handles the search endpoint
 	// it uses closure which actually servers the request
 	// Params:
-	// pointer to hikesapi
 	// Returns HandlerFunc function
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
@@ -62,32 +63,51 @@ func (app *application) searchHandler(hikesapi *hikes.Client) http.HandlerFunc {
 			page = "1"
 		}
 
-		// here we call the API with the params from the request
-		results, err := hikesapi.FetchEverything(searchQuery, page)
+		// all this seems very cumbersome
+		page_int, err := strconv.Atoi(page) //strconv is a package, Atoi is ASCII to integer
 		if err != nil {
 			app.serverError(w, err)
+		}
+
+		// assuming search has 11 records, page size=3
+		// page 1: offset 0
+		// page 2: offset 3
+		// page 3: offset 6
+		// page 4: offset 9 (will have only two records)
+		offset := (page_int - 1) * page_size
+
+		// here we call the API with the params from the request
+		results, err := app.Tours.SearchTour(searchQuery, page_size, offset)
+		if err != nil {
+			if errors.Is(err, models.ErrNoRecord) {
+				app.notFound(w)
+			} else {
+				app.serverError(w, err)
+			}
 			return
 		}
 
 		// to debug
-		// resultString := fmt.Sprintf("%+v", results)
-		// fmt.Println("RESULT STRING: ", resultString)
+		// for _, tour := range results {
+		// 	app.DebugLog.Printf("ID: %s, Record_type: %s, Name: %s, Abstract: %s, Logo: %s, Count: %d\n", tour.ID, tour.Record_type, tour.Name, tour.Abstract, tour.Logo_url, tour.Record_count)
+		// }
 
-		nextPage, err := strconv.Atoi(page) //strconv is a package, Atoi is ASCII to integer
-		if err != nil {
-			app.notFound(w)
-			return
-		}
+		totalPages := int(math.Ceil(float64(results[0].Record_count) / 3))
 
 		// we create an instance of struct Search
 		// we use pointer to avoid copying
 		// if I want mutability outside, than pointer also makes sense
 		search := &Search{
-			Query:      searchQuery,
-			NextPage:   nextPage,
-			TotalPages: results.Meta.Page.TotalPages,
-			Results:    results,
+			Query:        searchQuery,
+			NextPage:     page_int,
+			TotalPages:   totalPages,
+			TotalResults: results[0].Record_count,
+			Results:      results,
 		}
+
+		// debugging
+		// resultStringB := fmt.Sprintf("%+v", search)
+		// fmt.Println("BEFORE: ", resultStringB)
 
 		// increment page if page is not the last page
 		// this is if with initialiser

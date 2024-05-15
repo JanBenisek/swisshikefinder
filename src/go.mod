@@ -2,12 +2,10 @@ module github.com/janbenisek/swiss-hike-finder
 
 go 1.20
 
-replace internal/hikes => ./internal/hikes
 replace internal/models => ./internal/models
 
 require (
 	github.com/marcboeker/go-duckdb v1.6.3
-	internal/hikes v1.0.0
 	internal/models v1.0.0
 )
 
