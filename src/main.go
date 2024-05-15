@@ -4,13 +4,13 @@ import (
 	// embed static files in the binary
 	"database/sql"
 	"embed"
-	"fmt"
+
 	"log"
 	"net/http" // webserver
 	"os"
 
-	// access os stuff
-	conf "internal/config"
+	// internal stuff
+	"internal/models"
 
 	_ "github.com/marcboeker/go-duckdb"
 )
@@ -20,36 +20,52 @@ import (
 //go:embed all:static
 var static embed.FS
 
-type Tour struct {
-	ID   string
-	Name string
-}
-
-func getOneRow(n_rows int64) (Tour, error) {
-
-	// Get a database handle.
+func openDB() (*sql.DB, error) {
 	db, err := sql.Open("duckdb", "./duck.db?autoinstall_known_extensions=1&autoload_known_extensions=1")
+	if err != nil {
+		return nil, err
+	}
+	if err = db.Ping(); err != nil {
+		return nil, err
+	}
+
+	_, err = db.Exec(`IMPORT DATABASE './db/'`)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// An album to hold data from the returned row.
-	var tr Tour
+	return db, nil
+}
 
-	row := db.QueryRow("select id, name from './data/tours.parquet' limit ?", n_rows)
-	if err := row.Scan(&tr.ID, &tr.Name); err != nil {
-		if err == sql.ErrNoRows {
-			return tr, fmt.Errorf("id %d: no rows", n_rows)
-		}
-		return tr, fmt.Errorf("n_rows: %d: %v", n_rows, err)
-	}
-	return tr, nil
+type application struct {
+	DebugLog *log.Logger
+	InfoLog  *log.Logger
+	ErrorLog *log.Logger
+	Port     string
+	API_key  string
+	Tours    *models.TourModels
 }
 
 func main() {
 
+	DebugLog := log.New(os.Stdout, "DEBUG: ", log.Ldate|log.Ltime)
+	InfoLog := log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime)
+	ErrorLog := log.New(os.Stderr, "ERROR: ", log.Ldate|log.Ltime)
+
+	// Get a database handle.
+	db, err := openDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
 	// Get the application struct and set some env values
-	app := conf.AppLog
+	app := &application{
+		InfoLog:  InfoLog,
+		DebugLog: DebugLog,
+		ErrorLog: ErrorLog,
+		Tours:    &models.TourModels{DB: db},
+	}
 
 	// Digital Ocean always listens on 8080 and has the env var set
 	app.Port = os.Getenv("PORT") // will be available at http://localhost:8080
@@ -63,18 +79,11 @@ func main() {
 		app.ErrorLog.Fatal("Env: apiKey must be set")
 	}
 
-	// Testing the DuckDB
-	tour_sample, err := getOneRow(1)
-	if err != nil {
-		app.ErrorLog.Fatal(err)
-	}
-	app.DebugLog.Printf("ID: %s, Name: %s\n", tour_sample.ID, tour_sample.Name)
-
 	// my version of server, I can pass my own logger
 	srv := &http.Server{
 		Addr:     ":" + app.Port,
 		ErrorLog: app.ErrorLog,
-		Handler:  routes(app), // giving it my routes
+		Handler:  app.routes(), // giving it my routes
 	}
 
 	app.InfoLog.Printf("Starting server on %s", srv.Addr)
