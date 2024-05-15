@@ -28,16 +28,17 @@ RUN go test -v ./...
 FROM ubuntu:latest AS build-release-stage
 
 # plain ubuntu has no tls certificates (maybe build and move from base?)
-RUN apt-get update && apt-get install -y ca-certificates unzip wget
+RUN apt-get update && apt-get install -y ca-certificates
+# RUN apt-get update && apt-get install -y ca-certificates unzip wget
 
 # TEMP TO TEST DUCKDB
-RUN mkdir -p /opt/duckdb && \
-    wget -O /opt/duckdb/duckdb_cli.zip https://github.com/duckdb/duckdb/releases/download/v0.10.2/duckdb_cli-linux-amd64.zip && \
-    unzip /opt/duckdb/duckdb_cli.zip -d /opt/duckdb && \
-    rm /opt/duckdb/duckdb_cli.zip
+# RUN mkdir -p /opt/duckdb && \
+#     wget -O /opt/duckdb/duckdb_cli.zip https://github.com/duckdb/duckdb/releases/download/v0.10.2/duckdb_cli-linux-amd64.zip && \
+#     unzip /opt/duckdb/duckdb_cli.zip -d /opt/duckdb && \
+#     rm /opt/duckdb/duckdb_cli.zip
 
 # Set the PATH environment variable to include DuckDB CLI
-ENV PATH="/opt/duckdb:${PATH}"
+# ENV PATH="/opt/duckdb:${PATH}"
 
 WORKDIR /app
 
