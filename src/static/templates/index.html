@@ -49,15 +49,15 @@
               {{ range.Results }}
               <li class="hikes">
                 <div>
-                  <a target="_blank" rel="noreferrer noopener" href="{{.Url_swmo}}">
+                  <a target="_blank" rel="noreferrer noopener" href="{{.URLswmo}}">
                     <h3 class="name">{{.Name }}</h3>
                   </a>
                   <p class="abstract">{{ .Abstract }}</p>
                   <div class="metadata">
-                    <p class="type">{{ .Record_type }}</p>
+                    <p class="type">{{ .RecordType }}</p>
                   </div>
                 </div>
-                <img class="hike-image" src="{{ .Logo_url }}" />
+                <img class="hike-image" src="{{ .LogoURL }}" />
               </li>
               {{ end }}
             </ul>

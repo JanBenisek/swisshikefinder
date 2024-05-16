@@ -38,7 +38,7 @@ func (app *application) indexHandler() http.HandlerFunc {
 	}
 }
 
-func (app *application) searchHandler(page_size int) http.HandlerFunc {
+func (app *application) searchHandler(pageSize int) http.HandlerFunc {
 	// This handles the search endpoint
 	// it uses closure which actually servers the request
 	// Params:
@@ -74,10 +74,10 @@ func (app *application) searchHandler(page_size int) http.HandlerFunc {
 		// page 2: offset 3
 		// page 3: offset 6
 		// page 4: offset 9 (will have only two records)
-		offset := (page_int - 1) * page_size
+		offset := (page_int - 1) * pageSize
 
 		// here we call the API with the params from the request
-		results, err := app.Tours.SearchTour(searchQuery, page_size, offset)
+		results, err := app.Tours.SearchTour(searchQuery, pageSize, offset)
 		if err != nil {
 			if errors.Is(err, models.ErrNoRecord) {
 				app.notFound(w)
@@ -89,10 +89,10 @@ func (app *application) searchHandler(page_size int) http.HandlerFunc {
 
 		// to debug
 		// for _, tour := range results {
-		// 	app.DebugLog.Printf("ID: %s, Record_type: %s, Name: %s, Abstract: %s, Logo: %s, Count: %d\n", tour.ID, tour.Record_type, tour.Name, tour.Abstract, tour.Logo_url, tour.Record_count)
+		// 	app.DebugLog.Printf("ID: %s, RecordType: %s, Name: %s, Abstract: %s, Logo: %s, Count: %d\n", tour.ID, tour.RecordType, tour.Name, tour.Abstract, tour.LogoURL, tour.RecordCount)
 		// }
 
-		totalPages := int(math.Ceil(float64(results[0].Record_count) / 3))
+		totalPages := int(math.Ceil(float64(results[0].RecordCount) / 3))
 
 		// we create an instance of struct Search
 		// we use pointer to avoid copying
@@ -101,7 +101,7 @@ func (app *application) searchHandler(page_size int) http.HandlerFunc {
 			Query:        searchQuery,
 			NextPage:     page_int,
 			TotalPages:   totalPages,
-			TotalResults: results[0].Record_count,
+			TotalResults: results[0].RecordCount,
 			Results:      results,
 		}
 

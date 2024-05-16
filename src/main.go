@@ -42,7 +42,6 @@ type application struct {
 	InfoLog  *log.Logger
 	ErrorLog *log.Logger
 	Port     string
-	API_key  string
 	Tours    *models.TourModels
 }
 
@@ -72,11 +71,6 @@ func main() {
 	if app.Port == "" {
 		app.InfoLog.Printf("Port not found in .env, using default 8080")
 		app.Port = "8080"
-	}
-
-	app.API_key = os.Getenv("HIKE_API_KEY") // maybe get rid of it?
-	if app.API_key == "" {
-		app.ErrorLog.Fatal("Env: apiKey must be set")
 	}
 
 	// my version of server, I can pass my own logger
