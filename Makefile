@@ -25,11 +25,11 @@ run_bash:
 	docker run --rm -it --entrypoint /bin/sh $(PROJECT_NAME):latest
 
 run_port:
-	docker run -p $(PORT):$(PORT) -e "HIKE_API_KEY=$(HIKE_API_KEY)" --rm -it $(PROJECT_NAME):latest
+	docker run -p $(PORT):$(PORT) --rm -it $(PROJECT_NAME):latest
 
 run_package:
 	docker pull ghcr.io/janbenisek/swisshikefinder:latest
-	docker run -p $(PORT):$(PORT) -e "HIKE_API_KEY=$(HIKE_API_KEY)" --rm -it ghcr.io/janbenisek/swisshikefinder:latest
+	docker run -p $(PORT):$(PORT) --rm -it ghcr.io/janbenisek/swisshikefinder:latest
 
 
 
