@@ -29,6 +29,8 @@ func (app *application) indexHandler() http.HandlerFunc {
 			return
 		}
 
+		app.InfoLog.Printf("Serving / endpoint")
+
 		// write to template using HTTP writer and return it
 		err := tpl.Execute(w, nil)
 		if err != nil {
@@ -50,11 +52,15 @@ func (app *application) searchHandler(pageSize int) http.HandlerFunc {
 			return
 		}
 
+		app.InfoLog.Printf("Serving /search endpoint")
+
 		u, err := url.Parse(r.URL.String()) // we parse the URL from the request
 		if err != nil {
 			app.serverError(w, err)
 			return
 		}
+
+		app.InfoLog.Printf("Parsed URL: %s", u)
 
 		params := u.Query()            // extract params from the query
 		searchQuery := params.Get("q") // get value of the q param
@@ -62,9 +68,10 @@ func (app *application) searchHandler(pageSize int) http.HandlerFunc {
 		if page == "" {
 			page = "1"
 		}
+		app.InfoLog.Printf("Parsed parameters search: %s, page: %s", searchQuery, page)
 
 		// all this seems very cumbersome
-		page_int, err := strconv.Atoi(page) //strconv is a package, Atoi is ASCII to integer
+		pageInt, err := strconv.Atoi(page) //strconv is a package, Atoi is ASCII to integer
 		if err != nil {
 			app.serverError(w, err)
 		}
@@ -74,7 +81,7 @@ func (app *application) searchHandler(pageSize int) http.HandlerFunc {
 		// page 2: offset 3
 		// page 3: offset 6
 		// page 4: offset 9 (will have only two records)
-		offset := (page_int - 1) * pageSize
+		offset := (pageInt - 1) * pageSize
 
 		// here we call the API with the params from the request
 		results, err := app.Tours.SearchTour(searchQuery, pageSize, offset)
@@ -87,32 +94,46 @@ func (app *application) searchHandler(pageSize int) http.HandlerFunc {
 			return
 		}
 
+		app.InfoLog.Printf("Obtained %d result(s) from DB", len(results))
+
 		// to debug
 		// for _, tour := range results {
 		// 	app.DebugLog.Printf("ID: %s, RecordType: %s, Name: %s, Abstract: %s, Logo: %s, Count: %d\n", tour.ID, tour.RecordType, tour.Name, tour.Abstract, tour.LogoURL, tour.RecordCount)
 		// }
 
-		totalPages := int(math.Ceil(float64(results[0].RecordCount) / 3))
+		// this also looks iffy, no?
+		var totalResults int
+		var totalPages int
+
+		if len(results) > 0 {
+			totalResults = results[0].RecordCount
+			totalPages = int(math.Ceil(float64(totalResults) / 3))
+		} else {
+			totalPages = 0
+			totalResults = 0
+		}
 
 		// we create an instance of struct Search
 		// we use pointer to avoid copying
 		// if I want mutability outside, than pointer also makes sense
 		search := &Search{
 			Query:        searchQuery,
-			NextPage:     page_int,
+			NextPage:     pageInt,
 			TotalPages:   totalPages,
-			TotalResults: results[0].RecordCount,
+			TotalResults: totalResults,
 			Results:      results,
 		}
 
-		// debugging
+		// to debug
 		// resultStringB := fmt.Sprintf("%+v", search)
 		// fmt.Println("BEFORE: ", resultStringB)
+		app.DebugLog.Printf("Search struct: %+v", search)
 
 		// increment page if page is not the last page
 		// this is if with initialiser
 		if ok := !search.IsLastPage(); ok {
 			search.NextPage++
+			app.InfoLog.Printf("Incremented next page to %d", search.NextPage)
 		}
 
 		// this time we pass search data into the template and write into the HTTP response writer
@@ -121,5 +142,6 @@ func (app *application) searchHandler(pageSize int) http.HandlerFunc {
 			app.serverError(w, err)
 			return
 		}
+		app.InfoLog.Printf("Search request finished")
 	}
 }

@@ -36,12 +36,16 @@
                   <p>
                     About <strong>{{ .TotalResults }}</strong> results were
                     found. You are on page <strong>{{ .CurrentPage }}</strong> of
-                    <strong> {{ .TotalPages }}</strong>.
+                    <strong> {{ .TotalPages }} </strong>.
                   </p>
-                  {{ else if (ne .Query "") and (eq .TotalPages 0) }}
-                  <p>
-                    No results found for your query: <strong>{{ .Query }}</strong>.
-                  </p>
+                  {{ end }}
+                {{ else }}
+                  {{ if and (ne .Query "") (eq .TotalPages 0) }}
+                      <p>
+                        No results found for your query: <strong>{{ .Query }}</strong> 😟.
+                      </p>
+                  {{ else }}
+                      <p>No search results to display.</p>
                   {{ end }}
                 {{ end }}
                 </div>
