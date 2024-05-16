@@ -2,17 +2,16 @@ package models
 
 import (
 	"database/sql"
-	"errors"
 )
 
 type Tour struct {
-	ID           string
-	Record_type  string
-	Name         string
-	Abstract     string
-	Logo_url     string
-	Url_swmo     string
-	Record_count int
+	ID          string
+	RecordType  string
+	Name        string
+	Abstract    string
+	LogoURL     string
+	URLswmo     string
+	RecordCount int
 }
 
 // Define a SnippetModel type which wraps a sql.DB connection pool.
@@ -63,7 +62,7 @@ func (m *TourModels) SearchTour(query string, limit int, offset int) ([]*Tour, e
 
 	for rows.Next() {
 		t := &Tour{} //pointer to Tour
-		err := rows.Scan(&t.ID, &t.Record_type, &t.Name, &t.Abstract, &t.Logo_url, &t.Url_swmo, &t.Record_count)
+		err := rows.Scan(&t.ID, &t.RecordType, &t.Name, &t.Abstract, &t.LogoURL, &t.URLswmo, &t.RecordCount)
 		if err != nil {
 			return nil, err
 		}
@@ -75,24 +74,4 @@ func (m *TourModels) SearchTour(query string, limit int, offset int) ([]*Tour, e
 	}
 
 	return tours, nil
-}
-
-func (m *TourModels) GetTour(n_rows int) (*Tour, error) {
-
-	// initialise pointer to the new struct
-	t := &Tour{}
-
-	// row := m.DB.QueryRow("select ID, name, record_type from './data/gold_tours.parquet' limit ?", n_rows)
-	row := m.DB.QueryRow("select ID, name, record_type from gold.tours limit ?", n_rows)
-	// note that we are passing pointers
-	err := row.Scan(&t.ID, &t.Record_type, &t.Name)
-	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, ErrNoRecord
-		} else {
-			return nil, err
-		}
-	}
-
-	return t, nil
 }
