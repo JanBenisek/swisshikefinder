@@ -2,8 +2,11 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"internal/models"
+	"io/fs"
 	"net/http"
+	"path/filepath"
 	"runtime/debug"
 )
 
@@ -42,6 +45,12 @@ type Home struct {
 	Results []*models.TourPicture // this will be a pointer
 }
 
+// Struct that holds all data passed to the template
+// Let's revisit later if I want a generic struct
+// type TemplateData struct {
+// 	Search *Search
+// }
+
 func (s *Search) IsLastPage() bool {
 	// Operate on the struct Search,
 	// returns bool (if last page)
@@ -61,4 +70,63 @@ func (s *Search) PreviousPage() int {
 	// Operates on the struct Search
 	// returns int (previous page number)
 	return s.CurrentPage() - 1
+}
+
+func newTemplateCache() (map[string]*template.Template, error) {
+	cache := map[string]*template.Template{}
+
+	// Use fs.Glob() to get a slice of all filepaths in the Files
+	// This essentially gives us a slice of all the 'page' templates for the application, just
+	pages, err := fs.Glob(Files, "static/templates/pages/*.html")
+	if err != nil {
+		return nil, err
+	}
+
+	for _, page := range pages {
+		name := filepath.Base(page)
+		// Create a slice containing the filepath patterns for the templates we
+		// want to parse.
+		patterns := []string{
+			"static/templates/base.html",
+			"static/templates/header.html",
+			page,
+		}
+
+		// Use ParseFS() instead of ParseFiles() to parse the template files
+		// from the ui.Files embedded filesystem.
+		// ts, err := template.New(name).Funcs(functions).ParseFS(Files, patterns...)
+		ts, err := template.ParseFS(Files, patterns...)
+		// ts, err := template.ParseFiles(Files, patterns...)
+		if err != nil {
+			return nil, err
+		}
+
+		cache[name] = ts
+
+	}
+	return cache, nil
+}
+
+func (app *application) render(w http.ResponseWriter, status int, page string, data interface{}) {
+	// Retrieve the appropriate template set from the cache based on the page
+	// name (like 'home.tmpl'). If no entry exists in the cache with the
+	// provided name, then create a new error and call the serverError() helper
+	// method that we made earlier and return.
+	//
+	// data is interface, meaning it accepts any struct
+	ts, ok := app.templateCache[page]
+	if !ok {
+		err := fmt.Errorf("the template %s does not exist", page)
+		app.serverError(w, err)
+		return
+	}
+	// Write out the provided HTTP status code ('200 OK', '400 Bad Request'
+	// etc).
+	w.WriteHeader(status)
+	// Execute the template set and write the response body. Again, if there
+	// is any error we call the the serverError() helper.
+	err := ts.ExecuteTemplate(w, "base", data)
+	if err != nil {
+		app.serverError(w, err)
+	}
 }

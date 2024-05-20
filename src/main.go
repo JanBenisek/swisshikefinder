@@ -4,6 +4,7 @@ import (
 	// embed static files in the binary
 	"database/sql"
 	"embed"
+	"html/template"
 
 	"log"
 	"net/http" // webserver
@@ -18,7 +19,7 @@ import (
 // package level variables - means that it is available anywhere in this package
 //
 //go:embed all:static
-var static embed.FS
+var Files embed.FS
 
 func openDB() (*sql.DB, error) {
 	db, err := sql.Open("duckdb", "./duck.db?autoinstall_known_extensions=1&autoload_known_extensions=1")
@@ -38,11 +39,12 @@ func openDB() (*sql.DB, error) {
 }
 
 type application struct {
-	DebugLog *log.Logger
-	InfoLog  *log.Logger
-	ErrorLog *log.Logger
-	Port     string
-	Tours    *models.TourModels
+	DebugLog      *log.Logger
+	InfoLog       *log.Logger
+	ErrorLog      *log.Logger
+	Port          string
+	Tours         *models.TourModels
+	templateCache map[string]*template.Template
 }
 
 func main() {
@@ -58,13 +60,24 @@ func main() {
 	}
 	defer db.Close()
 
+	// Initialize a new template cache
+	templateCache, err := newTemplateCache()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// Get the application struct and set some env values
 	app := &application{
-		InfoLog:  InfoLog,
-		DebugLog: DebugLog,
-		ErrorLog: ErrorLog,
-		Tours:    &models.TourModels{DB: db},
+		InfoLog:       InfoLog,
+		DebugLog:      DebugLog,
+		ErrorLog:      ErrorLog,
+		Tours:         &models.TourModels{DB: db},
+		templateCache: templateCache,
 	}
+
+	// to debug
+	// bs, _ := json.Marshal(templateCache)
+	// app.InfoLog.Printf("Cache: %s", string(bs))
 
 	// Digital Ocean always listens on 8080 and has the env var set
 	app.Port = os.Getenv("PORT") // will be available at http://localhost:8080
