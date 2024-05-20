@@ -31,8 +31,11 @@ func (app *application) indexHandler() http.HandlerFunc {
 
 		app.InfoLog.Printf("Serving / endpoint")
 
+		var tpl_base = template.Must(template.ParseFS(static, "static/templates/*.html"))
+
 		// write to template using HTTP writer and return it
-		err := tpl.Execute(w, nil)
+		err := tpl_base.ExecuteTemplate(w, "base", nil)
+		// err := tpl_base.ExecuteTemplate(w, "base.html", nil)
 		if err != nil {
 			app.serverError(w, err)
 			return
@@ -136,8 +139,11 @@ func (app *application) searchHandler(pageSize int) http.HandlerFunc {
 			app.InfoLog.Printf("Incremented next page to %d", search.NextPage)
 		}
 
+		var tpl_search = template.Must(template.ParseFS(static, "static/templates/*.html"))
+
 		// this time we pass search data into the template and write into the HTTP response writer
-		err = tpl.Execute(w, search)
+		// err = tpl.Execute(w, search)
+		err = tpl_search.ExecuteTemplate(w, "base", search)
 		if err != nil {
 			app.serverError(w, err)
 			return
