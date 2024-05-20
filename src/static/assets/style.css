@@ -66,18 +66,34 @@ a.button:hover {
 }
 
 /* Styles the header element */
-header {
-  width: 100%;
-  height: 50px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+/* this one was generated */
+/* header {
+  background: var(--light-green);
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+} */
+header {
   background-color: var(--light-green);
   padding: 5px 10px;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  height: 50px;
+  left: 0;
+  right: 0;
+
+  padding: 5px 10px;
 }
 
 /* Targets elements within class logo (that's what the `.` mean)*/
@@ -94,7 +110,7 @@ form {
 
 .search-input {
   width: 500px;
-  height: 100%;
+  height: 30px;
   border-radius: 4px;
   border-color: transparent;
   background-color: var(--dark-green);
@@ -102,13 +118,14 @@ form {
   font-size: 16px;
   line-height: 1.4;
   padding-left: 5px;
+  margin: auto;
 }
 
 .container {
   width: 100%;
   max-width: 720px;
   margin: 0 auto;
-  padding: 80px 20px 40px;
+  padding: 40px 10px 40px; /*top, right/left, bottom -> adjust space between search form and results*/
   color: var(--dark-yellow);
 }
 
@@ -120,6 +137,7 @@ form {
 
 .search-results {
   list-style: none;
+  margin-top: 1px;
 }
   
 .hikes {
@@ -162,18 +180,8 @@ form {
   margin-right: 20px;
 }
 
-/* footer { 
-  position: absolute;
-  width: 100%;
-  height: 200px;
-  left: 0;
-  bottom: 0;
-  background-color: var(--mid-gray);
-  color: var(--dark-green);
-  text-align: center;
-  box-sizing: border-box;
-} */
 
+/* somehow it is not colored */
 footer {
   grid-row-start: 2;
   grid-row-end: 3;
@@ -218,4 +226,59 @@ footer {
   .hike-image {
     display: none;
   }
+}
+
+/* CSS for home page */
+main {
+  padding-top: 80px; /* Adjust this value if your header height changes */
+}
+
+.home {
+  text-align: center;
+  padding: 2rem;
+}
+
+.home h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.home p {
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.gallery {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.gallery img {
+  width: 30%;
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+}
+
+/* CSS for search related stuff */
+.button.search-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1px;
 }

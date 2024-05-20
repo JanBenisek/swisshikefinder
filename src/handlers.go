@@ -14,8 +14,6 @@ import (
 	_ "github.com/marcboeker/go-duckdb"
 )
 
-var tpl = template.Must(template.ParseFS(static, "static/templates/index.html"))
-
 func (app *application) indexHandler() http.HandlerFunc {
 	// Handles HTTP requests
 	// Params:
@@ -31,11 +29,29 @@ func (app *application) indexHandler() http.HandlerFunc {
 
 		app.InfoLog.Printf("Serving / endpoint")
 
-		var tpl_base = template.Must(template.ParseFS(static, "static/templates/*.html"))
+		results, err := app.Tours.RandomTourPics(3)
+		if err != nil {
+			if errors.Is(err, models.ErrNoRecord) {
+				app.notFound(w)
+			} else {
+				app.serverError(w, err)
+			}
+			return
+		}
+
+		// debug
+		// for _, pic := range results {
+		// 	app.DebugLog.Printf("URL: %s\n", pic.PictureURL)
+		// }
+
+		var tpl_base = template.Must(template.ParseFS(static, "static/templates/base.html", "static/templates/pages/home.html", "static/templates/header.html"))
+
+		pics := &Home{
+			Results: results,
+		}
 
 		// write to template using HTTP writer and return it
-		err := tpl_base.ExecuteTemplate(w, "base", nil)
-		// err := tpl_base.ExecuteTemplate(w, "base.html", nil)
+		err = tpl_base.ExecuteTemplate(w, "base", pics)
 		if err != nil {
 			app.serverError(w, err)
 			return
@@ -139,10 +155,9 @@ func (app *application) searchHandler(pageSize int) http.HandlerFunc {
 			app.InfoLog.Printf("Incremented next page to %d", search.NextPage)
 		}
 
-		var tpl_search = template.Must(template.ParseFS(static, "static/templates/*.html"))
+		var tpl_search = template.Must(template.ParseFS(static, "static/templates/base.html", "static/templates/pages/search.html", "static/templates/header.html"))
 
 		// this time we pass search data into the template and write into the HTTP response writer
-		// err = tpl.Execute(w, search)
 		err = tpl_search.ExecuteTemplate(w, "base", search)
 		if err != nil {
 			app.serverError(w, err)

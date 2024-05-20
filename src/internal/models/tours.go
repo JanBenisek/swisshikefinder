@@ -14,6 +14,10 @@ type Tour struct {
 	RecordCount int
 }
 
+type TourPicture struct {
+	PictureURL string
+}
+
 // Define a SnippetModel type which wraps a sql.DB connection pool.
 type TourModels struct {
 	DB *sql.DB
@@ -74,4 +78,37 @@ func (m *TourModels) SearchTour(query string, limit int, offset int) ([]*Tour, e
 	}
 
 	return tours, nil
+}
+
+func (m *TourModels) RandomTourPics(sampleSize int) ([]*TourPicture, error) {
+
+	// initialise empty slice of pointers
+	pics := []*TourPicture{}
+
+	// stmt := `select url from gold.tour_images using sample $1`
+	stmt := `select url from gold.tour_images using sample 3`
+
+	// rows, err := m.DB.Query(stmt, sampleSize)
+	rows, err := m.DB.Query(stmt)
+	if err != nil {
+		return nil, err
+	}
+	// close before the method SearchTour returns
+	// should be after we check for an error, otherwise get panic trying to close nil rows
+	defer rows.Close()
+
+	for rows.Next() {
+		t := &TourPicture{} //pointer to TourPicture
+		err := rows.Scan(&t.PictureURL)
+		if err != nil {
+			return nil, err
+		}
+		pics = append(pics, t)
+	}
+	// important to collect errors after the iterations
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return pics, nil
 }
