@@ -43,19 +43,9 @@ func (app *application) indexHandler() http.HandlerFunc {
 		// 	app.DebugLog.Printf("URL: %s\n", pic.PictureURL)
 		// }
 
-		// var tpl_base = template.Must(template.ParseFS(static, "static/templates/base.html", "static/templates/pages/home.html", "static/templates/header.html"))
-
-		pics := &Home{
+		app.render(w, http.StatusOK, "home.html", &Home{
 			Results: results,
-		}
-
-		// write to template using HTTP writer and return it
-		// err = tpl_base.ExecuteTemplate(w, "base", pics)
-		// if err != nil {
-		// 	app.serverError(w, err)
-		// 	return
-		// }
-		app.render(w, http.StatusOK, "base", pics)
+		})
 	}
 }
 
@@ -155,19 +145,8 @@ func (app *application) searchHandler(pageSize int) http.HandlerFunc {
 			app.InfoLog.Printf("Incremented next page to %d", search.NextPage)
 		}
 
-		// var tpl_search = template.Must(template.ParseFS(static, "static/templates/base.html", "static/templates/pages/search.html", "static/templates/header.html"))
-
-		// this time we pass search data into the template and write into the HTTP response writer
-		// err = tpl_search.ExecuteTemplate(w, "base", search)
-		// if err != nil {
-		// 	app.serverError(w, err)
-		// 	return
-		// }
-
 		// render the app with the search results
-		app.render(w, http.StatusOK, "base", &TemplateData{
-			Search: search,
-		})
+		app.render(w, http.StatusOK, "search.html", search)
 
 		app.InfoLog.Printf("Search request finished")
 	}

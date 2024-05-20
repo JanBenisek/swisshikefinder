@@ -4,7 +4,6 @@ import (
 	// embed static files in the binary
 	"database/sql"
 	"embed"
-	"encoding/json"
 	"html/template"
 
 	"log"
@@ -76,10 +75,9 @@ func main() {
 		templateCache: templateCache,
 	}
 
-	// app.InfoLog.Printf("Cache: %+v", templateCache)
-	bs, _ := json.Marshal(templateCache)
-	// fmt.Println(string(bs))
-	app.InfoLog.Printf("Cache: %s", string(bs))
+	// to debug
+	// bs, _ := json.Marshal(templateCache)
+	// app.InfoLog.Printf("Cache: %s", string(bs))
 
 	// Digital Ocean always listens on 8080 and has the env var set
 	app.Port = os.Getenv("PORT") // will be available at http://localhost:8080
