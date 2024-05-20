@@ -88,7 +88,7 @@ func newTemplateCache() (map[string]*template.Template, error) {
 		// want to parse.
 		patterns := []string{
 			"static/templates/base.html",
-			"static/templates/header.html",
+			"static/templates/partials/header.html",
 			page,
 		}
 
