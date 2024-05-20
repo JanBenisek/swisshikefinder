@@ -1,4 +1,16 @@
-{{define "search"}}
+{{define "content"}}
+<div class="search-container">
+<form action="/search" method="GET">
+  <input
+    autofocus
+    class="search-input"
+    value="{{ .Query }}"
+    placeholder="What would you like to discover?"
+    type="search"
+    name="q"
+  />
+</form>
+</div>
 <section class="container">
     <div class="result-count">
         {{ if .Results }}

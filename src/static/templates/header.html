@@ -1,20 +1,6 @@
 {{define "header"}}
 <header>
   <a class="logo" href="/">Swiss Hike Finder</a>
-  <form action="/search" method="GET">
-    <input
-      autofocus
-      class="search-input"
-      value="{{ .Query }}"
-      placeholder="What would you like to discover?"
-      type="search"
-      name="q"
-    />
-  </form>
-  <a
-    href="https://developer.myswitzerland.io/apis"
-    class="button mysw-button"
-    >View API</a
-  >
+  <a href="/search" class="button search-button">Search</a>
 </header>
 {{end}}

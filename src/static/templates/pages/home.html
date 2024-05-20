@@ -1,0 +1,11 @@
+{{define "content"}}
+<div class="home">
+  <h2>Explore Switzerland's Beautiful Trails</h2>
+  <p>Discover breathtaking landscapes and scenic routes. Enjoy the best hikes Switzerland has to offer.</p>
+  <div class="gallery">
+    {{range .Results}}
+      <img src="{{ .PictureURL }}" alt="Hike image">
+    {{end}}
+  </div>
+</div>
+{{end}}

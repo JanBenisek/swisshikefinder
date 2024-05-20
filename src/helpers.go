@@ -38,6 +38,10 @@ type Search struct {
 	Results      []*models.Tour // this will be a pointer
 }
 
+type Home struct {
+	Results []*models.TourPicture // this will be a pointer
+}
+
 func (s *Search) IsLastPage() bool {
 	// Operate on the struct Search,
 	// returns bool (if last page)
