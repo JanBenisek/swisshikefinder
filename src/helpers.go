@@ -9,13 +9,14 @@ import (
 	"net/http"
 	"path/filepath"
 	"runtime/debug"
+	"time"
 )
 
 // The serverError helper writes an error message and stack trace to the errorLog,
 // then sends a generic 500 Internal Server Error response to the user.
 func (app *application) serverError(w http.ResponseWriter, err error) {
 	trace := fmt.Sprintf("%s\n%s", err.Error(), debug.Stack())
-	app.ErrorLog.Output(2, trace) // this shows where error occured
+	app.ErrorLog.Output(2, trace) // this shows where error occurred
 	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 }
 
@@ -47,10 +48,11 @@ type Home struct {
 }
 
 // Struct that holds all data passed to the template
-// Let's revisit later if I want a generic struct
-// type TemplateData struct {
-// 	Search *Search
-// }
+type templateData struct {
+	CurrentYear int
+	Search *Search
+	Home *Home
+}
 
 func (s *Search) IsLastPage() bool {
 	// Operate on the struct Search,
@@ -72,6 +74,12 @@ func (s *Search) PreviousPage() int {
 	// returns int (previous page number)
 	return s.CurrentPage() - 1
 }
+
+// helper which initialised the struct with the current year
+func (app *application) newTemplateData(r *http.Request) *templateData {
+	return &templateData{
+	CurrentYear: time.Now().Year(),
+	} }
 
 func newTemplateCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
