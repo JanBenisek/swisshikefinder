@@ -5,13 +5,20 @@ LABEL org.opencontainers.image.source="https://github.com/janbenisek/swisshikefi
 
 WORKDIR /app
 
-# recommended to use ./ which forces current working directory (WORKDIR)
+# Copy go.mod and go.sum to cache dependencies
+COPY /src/go.mod /src/go.sum ./
+
+# Copy the entire project source, including the internal modules
 COPY /src ./
-COPY /data/db ./db
-COPY /data/raw_data ./raw_data
 
 # Download go modules
 RUN go mod download
+
+# copy the rest
+# recommended to use ./ which forces current working directory (WORKDIR)
+# COPY /src ./
+COPY /data/db ./db
+COPY /data/raw_data ./raw_data
 
 # Build
 # with ./ it goes into workdir

@@ -6,6 +6,7 @@ import (
 	_ "github.com/marcboeker/go-duckdb"
 )
 
+// func (app *application) routes() *http.ServeMux {
 func (app *application) routes() http.Handler {
 	// because we put middleware before, we just return the handler, not mux
 
@@ -23,4 +24,5 @@ func (app *application) routes() http.Handler {
 
 	// using middleware here for every request
 	return secureHeaders(mux)
+	// return mux
 }

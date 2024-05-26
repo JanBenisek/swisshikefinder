@@ -44,7 +44,7 @@ func (app *application) indexHandler() http.HandlerFunc {
 		// }
 
 		data := app.newTemplateData(r)
-		data.Home = &Home{Results: results,}
+		data.Home = &Home{Results: results}
 
 		app.render(w, http.StatusOK, "home.html", data)
 	}
