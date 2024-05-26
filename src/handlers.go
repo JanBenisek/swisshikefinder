@@ -43,9 +43,13 @@ func (app *application) indexHandler() http.HandlerFunc {
 		// 	app.DebugLog.Printf("URL: %s\n", pic.PictureURL)
 		// }
 
-		app.render(w, http.StatusOK, "home.html", &Home{
-			Results: results,
-		})
+		data := app.newTemplateData(r)
+		data.Home = &Home{Results: results,}
+
+		// home := &Home{Results:results,}
+
+		// app.render(w, http.StatusOK, "home.html", &Home{Results: results,})
+		app.render(w, http.StatusOK, "home.html", data)
 	}
 }
 
@@ -145,8 +149,11 @@ func (app *application) searchHandler(pageSize int) http.HandlerFunc {
 			app.InfoLog.Printf("Incremented next page to %d", search.NextPage)
 		}
 
+		data := app.newTemplateData(r)
+		data.Search = search
+
 		// render the app with the search results
-		app.render(w, http.StatusOK, "search.html", search)
+		app.render(w, http.StatusOK, "search.html", data)
 
 		app.InfoLog.Printf("Search request finished")
 	}

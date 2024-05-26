@@ -4,7 +4,7 @@
   <input
     autofocus
     class="search-input"
-    value="{{ .Query }}"
+    value="{{ .Search.Query }}"
     placeholder="What would you like to discover?"
     type="search"
     name="q"
@@ -13,18 +13,18 @@
 </div>
 <section class="container">
     <div class="result-count">
-        {{ if .Results }}
-          {{ if (gt .TotalPages 0)}}
+        {{ if .Search.Results }}
+          {{ if (gt .Search.TotalPages 0)}}
           <p>
-            About <strong>{{ .TotalResults }}</strong> results were
-            found. You are on page <strong>{{ .CurrentPage }}</strong> of
-            <strong> {{ .TotalPages }} </strong>.
+            About <strong>{{ .Search.TotalResults }}</strong> results were
+            found. You are on page <strong>{{ .Search.CurrentPage }}</strong> of
+            <strong> {{ .Search.TotalPages }} </strong>.
           </p>
           {{ end }}
         {{ else }}
-          {{ if and (ne .Query "") (eq .TotalPages 0) }}
+          {{ if and (ne .Search.Query "") (eq .Search.TotalPages 0) }}
               <p>
-                No results found for your query: <strong>{{ .Query }}</strong> 😟.
+                No results found for your query: <strong>{{ .Search.Query }}</strong> 😟.
               </p>
           {{ else }}
               <p>No search results to display.</p>
@@ -32,7 +32,7 @@
         {{ end }}
         </div>
     <ul class="search-results">
-      {{ range.Results }}
+      {{ range.Search.Results }}
       <li class="hikes">
         <div>
           <a target="_blank" rel="noreferrer noopener" href="{{.URLswmo}}">
@@ -48,17 +48,17 @@
       {{ end }}
     </ul>
     <div class="pagination">
-    {{ if . }}
-        {{ if (gt .NextPage 2) }}
+    {{ if .Search }}
+        {{ if (gt .Search.NextPage 2) }}
         <a
-        href="/search?q={{ .Query }}&page={{ .PreviousPage }}"
+        href="/search?q={{ .Search.Query }}&page={{ .Search.PreviousPage }}"
         class="button previous-page"
         >Previous</a
         >
         {{ end }}
-        {{ if (ne .IsLastPage true) }}
+        {{ if (ne .Search.IsLastPage true) }}
         <a
-        href="/search?q={{ .Query }}&page={{ .NextPage }}"
+        href="/search?q={{ .Search.Query }}&page={{ .Search.NextPage }}"
         class="button next-page"
         >Next</a
         >
