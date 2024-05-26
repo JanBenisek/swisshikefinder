@@ -46,9 +46,6 @@ func (app *application) indexHandler() http.HandlerFunc {
 		data := app.newTemplateData(r)
 		data.Home = &Home{Results: results,}
 
-		// home := &Home{Results:results,}
-
-		// app.render(w, http.StatusOK, "home.html", &Home{Results: results,})
 		app.render(w, http.StatusOK, "home.html", data)
 	}
 }
@@ -138,9 +135,7 @@ func (app *application) searchHandler(pageSize int) http.HandlerFunc {
 		}
 
 		// to debug
-		// resultStringB := fmt.Sprintf("%+v", search)
-		// fmt.Println("BEFORE: ", resultStringB)
-		app.DebugLog.Printf("Search struct: %+v", search)
+		// app.DebugLog.Printf("Search struct: %+v", search)
 
 		// increment page if page is not the last page
 		// this is if with initialiser
