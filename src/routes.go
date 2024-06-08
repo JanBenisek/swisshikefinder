@@ -3,6 +3,8 @@ package main
 import (
 	"net/http"
 
+	"github.com/justinas/alice" // New import
+
 	_ "github.com/marcboeker/go-duckdb"
 )
 
@@ -24,5 +26,10 @@ func (app *application) routes() http.Handler {
 
 	// using middleware here for every request
 	// Recover panic is first to handle Panics in all subsequent middlewares and handlers
-	return app.recoverPanic(app.logRequest(secureHeaders(mux)))
+	// Create a middleware chain containing our 'standard' middleware
+	// which will be used for every request our application receives.
+	standard := alice.New(app.recoverPanic, app.logRequest, secureHeaders)
+
+	// Return the 'standard' middleware chain followed by the servemux.
+	return standard.Then(mux)
 }
