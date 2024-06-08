@@ -20,11 +20,6 @@ func (app *application) indexHandler() http.HandlerFunc {
 	// r - request received, we access the data (from net/http)
 	return func(w http.ResponseWriter, r *http.Request) {
 		// buf is a pointer (&) which is nice thing to pass around, rather than copying the entire content
-		if r.Method != http.MethodGet {
-			w.Header().Set("Allow", http.MethodGet)
-			app.clientError(w, http.StatusMethodNotAllowed)
-			return
-		}
 
 		app.InfoLog.Printf("Serving / endpoint")
 
@@ -56,11 +51,6 @@ func (app *application) searchHandler(pageSize int) http.HandlerFunc {
 	// Params:
 	// Returns HandlerFunc function
 	return func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodGet {
-			w.Header().Set("Allow", http.MethodGet)
-			app.clientError(w, http.StatusMethodNotAllowed)
-			return
-		}
 
 		app.InfoLog.Printf("Serving /search endpoint")
 

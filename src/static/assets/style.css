@@ -282,3 +282,19 @@ main {
   justify-content: center;
   margin-bottom: 1px;
 }
+
+/* Not found page */
+.notFound {
+  text-align: center;
+  padding: 2rem;
+}
+
+.notFound h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.notFound p {
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
