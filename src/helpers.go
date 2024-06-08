@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"bytes"
+	"fmt"
 	"html/template"
 	"internal/models"
 	"io/fs"
@@ -17,21 +17,24 @@ import (
 func (app *application) serverError(w http.ResponseWriter, err error) {
 	trace := fmt.Sprintf("%s\n%s", err.Error(), debug.Stack())
 	app.ErrorLog.Output(2, trace) // this shows where error occurred
-	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+	// http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+	app.render(w, http.StatusOK, "server_error.html", nil)
 }
 
 // The clientError helper sends a specific status code and corresponding description
 // to the user. We'll use this later in the book to send responses like 400 "Bad
 // Request" when there's a problem with the request that the user sent.
-func (app *application) clientError(w http.ResponseWriter, status int) {
-	http.Error(w, http.StatusText(status), status)
-}
+
+// func (app *application) clientError(w http.ResponseWriter, status int) {
+// 	http.Error(w, http.StatusText(status), status)
+// }
 
 // For consistency, we'll also implement a notFound helper. This is simply a
 // convenience wrapper around clientError which sends a 404 Not Found response to
 // the user.
 func (app *application) notFound(w http.ResponseWriter) {
-	app.clientError(w, http.StatusNotFound)
+	// app.clientError(w, http.StatusNotFound)
+	app.render(w, http.StatusOK, "not_found.html", nil)
 }
 
 // TODO: Better place to put these?
@@ -50,8 +53,8 @@ type Home struct {
 // Struct that holds all data passed to the template
 type templateData struct {
 	CurrentYear int
-	Search *Search
-	Home *Home
+	Search      *Search
+	Home        *Home
 }
 
 func (s *Search) IsLastPage() bool {
@@ -78,8 +81,9 @@ func (s *Search) PreviousPage() int {
 // helper which initialised the struct with the current year
 func (app *application) newTemplateData(r *http.Request) *templateData {
 	return &templateData{
-	CurrentYear: time.Now().Year(),
-	} }
+		CurrentYear: time.Now().Year(),
+	}
+}
 
 func newTemplateCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
