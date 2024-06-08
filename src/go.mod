@@ -1,6 +1,8 @@
 module github.com/janbenisek/swiss-hike-finder
 
-go 1.20
+go 1.21
+
+toolchain go1.22.3
 
 replace internal/models => ./internal/models
 

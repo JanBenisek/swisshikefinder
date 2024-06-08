@@ -6,7 +6,9 @@ import (
 	_ "github.com/marcboeker/go-duckdb"
 )
 
-func (app *application) routes() *http.ServeMux {
+// func (app *application) routes() *http.ServeMux {
+func (app *application) routes() http.Handler {
+	// because we put middleware before, we just return the handler, not mux
 
 	// creates new HTTP server multiplexer
 	// checks each requests and routes it to appropriate function
@@ -20,5 +22,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("/search", app.searchHandler(3)) // with /search, use the searchHandler
 	mux.HandleFunc("/", app.indexHandler())         // handles request to the root
 
-	return mux
+	// using middleware here for every request
+	// Recover panic is first to handle Panics in all subsequent middlewares and handlers
+	return app.recoverPanic(app.logRequest(secureHeaders(mux)))
 }
