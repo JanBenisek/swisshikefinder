@@ -27,3 +27,9 @@ jobs:
         run: |
           docker build --no-cache -t ghcr.io/janbenisek/swisshikefinder:latest .
           docker push ghcr.io/janbenisek/swisshikefinder:latest
+
+      - name: 'DigitalOcean App Platform deployment'
+        uses: digitalocean/app_action@v1.1.5
+        with:
+          app_name: swiss-hiker-app
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
