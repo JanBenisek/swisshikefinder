@@ -23,6 +23,6 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("/", app.indexHandler())         // handles request to the root
 
 	// using middleware here for every request
-	return secureHeaders(mux)
-	// return mux
+	// Recover panic is first to handle Panics in all subsequent middlewares and handlers
+	return app.recoverPanic(app.logRequest(secureHeaders(mux)))
 }
