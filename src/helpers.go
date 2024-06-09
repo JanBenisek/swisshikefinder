@@ -50,11 +50,16 @@ type Home struct {
 	Results []*models.TourPicture // this will be a pointer
 }
 
+type Tour struct {
+	Result *models.Tour // this will be a pointer
+}
+
 // Struct that holds all data passed to the template
 type templateData struct {
 	CurrentYear int
 	Search      *Search
 	Home        *Home
+	Tour        *Tour
 }
 
 func (s *Search) IsLastPage() bool {

@@ -254,10 +254,14 @@ main {
   gap: 1rem;
 }
 
+.gallery a {
+  flex: 1 1 30%; /* Set each link to take up one-third of the available space */
+  max-width: 30%; /* Limit maximum width of each link */
+}
+
 .gallery img {
-  width: 30%;
-  max-width: 100%;
-  height: auto;
+  width: 100%; /* Make sure the images fill the entire width of their container */
+  height: auto; /* Maintain aspect ratio */
   border: 2px solid #ddd;
   border-radius: 8px;
 }
@@ -297,4 +301,18 @@ main {
 .notFound p {
   margin-bottom: 2rem;
   font-size: 1rem;
+}
+
+/* Tour view Styling - reusing some of Search components */
+.tour-details {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.tour-image {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }
