@@ -26,9 +26,8 @@ type TourModels struct {
 }
 
 // TODO:
-// Have GetTourBasic and GetTourRich funcs and related structs
-// TourPicture and the function become "Basic"? Search as well
-// GetTour is Rich - to show on a separate page
+// Review the Tour functions and struct
+// could be simplified to basic and rich view (for function and structs)
 
 func (m *TourModels) SearchTour(query string, limit int, offset int) ([]*Tour, error) {
 
