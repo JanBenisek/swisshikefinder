@@ -4,7 +4,9 @@
   <p>Discover breathtaking landscapes and scenic routes. Enjoy the best hikes Switzerland has to offer.</p>
   <div class="gallery">
     {{range .Home.Results}}
-      <img src="{{ .PictureURL }}" alt="Hike image">
+      <a href="/tour/{{ .ID }}">
+        <img src="{{ .PictureURL }}" alt="Hike image">
+      </a>
     {{end}}
   </div>
 </div>

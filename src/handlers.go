@@ -8,6 +8,8 @@ import (
 	"net/url"  // access os stuff
 	"strconv"
 
+	"github.com/julienschmidt/httprouter"
+
 	"internal/models"
 
 	_ "github.com/marcboeker/go-duckdb"
@@ -23,7 +25,7 @@ func (app *application) indexHandler() http.HandlerFunc {
 
 		app.InfoLog.Printf("Serving / endpoint")
 
-		results, err := app.Tours.RandomTourPics(3)
+		results, err := app.Tours.RandomTourPics()
 		if err != nil {
 			if errors.Is(err, models.ErrNoRecord) {
 				app.notFound(w)
@@ -35,7 +37,7 @@ func (app *application) indexHandler() http.HandlerFunc {
 
 		// debug
 		// for _, pic := range results {
-		// 	app.DebugLog.Printf("URL: %s\n", pic.PictureURL)
+		// 	app.DebugLog.Printf("URL: %s, ID: %s\n", pic.ID, pic.PictureURL)
 		// }
 
 		data := app.newTemplateData(r)
@@ -141,5 +143,44 @@ func (app *application) searchHandler(pageSize int) http.HandlerFunc {
 		app.render(w, http.StatusOK, "search.html", data)
 
 		app.InfoLog.Printf("Search request finished")
+	}
+}
+
+func (app *application) tourView() http.HandlerFunc {
+	// Serve Detailed Tour View
+
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		app.InfoLog.Printf("Serving /tour endpoint")
+
+		params := httprouter.ParamsFromContext(r.Context())
+
+		app.DebugLog.Printf("Tour View params: %s\n", params)
+
+		id := params.ByName("id")
+		if id == "" {
+			app.notFound(w)
+			return
+		}
+
+		app.DebugLog.Printf("Tour View ID: %s\n", id)
+
+		tour, err := app.Tours.TourBasicInfo(id)
+		if err != nil {
+			if errors.Is(err, models.ErrNoRecord) {
+				app.notFound(w)
+			} else {
+				app.serverError(w, err)
+			}
+			return
+		}
+
+		data := app.newTemplateData(r)
+		data.Tour = &Tour{Result: tour}
+
+		// render the app with the search results
+		app.render(w, http.StatusOK, "tour.html", data)
+
+		app.InfoLog.Printf("Tour request finished")
 	}
 }

@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"errors"
 )
 
 type Tour struct {
@@ -15,6 +16,7 @@ type Tour struct {
 }
 
 type TourPicture struct {
+	ID         string
 	PictureURL string
 }
 
@@ -22,6 +24,11 @@ type TourPicture struct {
 type TourModels struct {
 	DB *sql.DB
 }
+
+// TODO:
+// Have GetTourBasic and GetTourRich funcs and related structs
+// TourPicture and the function become "Basic"? Search as well
+// GetTour is Rich - to show on a separate page
 
 func (m *TourModels) SearchTour(query string, limit int, offset int) ([]*Tour, error) {
 
@@ -35,7 +42,7 @@ func (m *TourModels) SearchTour(query string, limit int, offset int) ([]*Tour, e
 		with 
 		search_q as (
 			select 
-				t.ID, 
+				t.ID::varchar as ID, 
 				t.record_type,
 				t.name, 
 				t.abstract,
@@ -80,13 +87,13 @@ func (m *TourModels) SearchTour(query string, limit int, offset int) ([]*Tour, e
 	return tours, nil
 }
 
-func (m *TourModels) RandomTourPics(sampleSize int) ([]*TourPicture, error) {
+func (m *TourModels) RandomTourPics() ([]*TourPicture, error) {
 
 	// initialise empty slice of pointers
 	pics := []*TourPicture{}
 
 	// stmt := `select url from gold.tour_images using sample $1`
-	stmt := `select url from gold.tour_images using sample 3`
+	stmt := `select ID::varchar as ID, url from gold.tour_images using sample 3`
 
 	// rows, err := m.DB.Query(stmt, sampleSize)
 	rows, err := m.DB.Query(stmt)
@@ -99,7 +106,7 @@ func (m *TourModels) RandomTourPics(sampleSize int) ([]*TourPicture, error) {
 
 	for rows.Next() {
 		t := &TourPicture{} //pointer to TourPicture
-		err := rows.Scan(&t.PictureURL)
+		err := rows.Scan(&t.ID, &t.PictureURL)
 		if err != nil {
 			return nil, err
 		}
@@ -111,4 +118,37 @@ func (m *TourModels) RandomTourPics(sampleSize int) ([]*TourPicture, error) {
 	}
 
 	return pics, nil
+}
+
+func (m *TourModels) TourBasicInfo(id string) (*Tour, error) {
+
+	// initialise pointer to the struct
+	t := &Tour{}
+
+	stmt := `
+		select 
+			t.ID::varchar as ID, 
+			t.record_type,
+			t.name, 
+			t.abstract,
+			t.logo_url,
+			t.url_swmo,
+			1 as cnt
+		from gold.tours t
+		where t.ID::varchar = $1
+	`
+
+	row := m.DB.QueryRow(stmt, id)
+
+	err := row.Scan(&t.ID, &t.RecordType, &t.Name, &t.Abstract, &t.LogoURL, &t.URLswmo, &t.RecordCount)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, ErrNoRecord
+		} else {
+			return nil, err
+		}
+	}
+
+	return t, nil
 }

@@ -31,6 +31,7 @@ func (app *application) routes() http.Handler {
 
 	router.HandlerFunc(http.MethodGet, "/", app.indexHandler())         // handles request to the root
 	router.HandlerFunc(http.MethodGet, "/search", app.searchHandler(3)) // with /search, use the searchHandler
+	router.HandlerFunc(http.MethodGet, "/tour/:id", app.tourView())
 
 	// using middleware here for every request
 	// Recover panic is first to handle Panics in all subsequent middlewares and handlers

@@ -1,0 +1,14 @@
+{{define "content"}}
+<section class="container">
+    <div class="tour-details">
+        <h3 class="name">{{ .Tour.Result.Name }}</h3>
+        <p class="abstract">{{ .Tour.Result.Abstract }}</p>
+        <div class="metadata">
+            <p class="type">{{ .Tour.Result.RecordType }}</p>
+        </div>
+        <a target="_blank" rel="noreferrer noopener" href="{{ .Tour.Result.URLswmo }}">
+            <img class="tour-image" src="{{ .Tour.Result.LogoURL }}" alt="{{ .Tour.Result.Name }}"/>
+        </a>
+    </div>
+</section>
+{{end}}
