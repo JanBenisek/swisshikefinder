@@ -8,6 +8,7 @@ type Recommendation struct {
 	ID          int
 	Title       string
 	Description string
+	FieldErrors map[string]string
 }
 
 // Define a ToursModel type which wraps a sql.DB connection pool.

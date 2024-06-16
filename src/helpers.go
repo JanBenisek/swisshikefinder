@@ -43,11 +43,11 @@ type Search struct {
 	NextPage     int
 	TotalPages   int
 	TotalResults int
-	Results      []*models.Tour // this will be a pointer
+	Results      []*models.Tour // this will be a list pointers
 }
 
 type Home struct {
-	Results []*models.TourPicture // this will be a pointer
+	Results []*models.TourPicture // this will be a list of pointers
 }
 
 type Tour struct {
@@ -55,7 +55,11 @@ type Tour struct {
 }
 
 type Recom struct {
-	Results []*models.Recommendation // this will be a pointer
+	Results []*models.Recommendation // this will be a list of pointers
+}
+
+type RecomForm struct {
+	Results *models.Recommendation // this will be a pointer
 }
 
 // Struct that holds all data passed to the template
@@ -65,6 +69,7 @@ type templateData struct {
 	Home        *Home
 	Tour        *Tour
 	Recom       *Recom
+	RecomForm   any
 }
 
 func (s *Search) IsLastPage() bool {

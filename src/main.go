@@ -46,6 +46,7 @@ type application struct {
 	Port          string
 	Tours         *models.TourModels
 	Recoms        *models.RecModels
+	RecomForm     *models.Recommendation
 	templateCache map[string]*template.Template
 }
 
