@@ -7,6 +7,8 @@ import (
 	"net/http" // webserver
 	"net/url"  // access os stuff
 	"strconv"
+	"strings"
+	"unicode/utf8"
 
 	"github.com/julienschmidt/httprouter"
 
@@ -209,12 +211,38 @@ func (app *application) recommendPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	title := r.PostForm.Get("title")
-	description := r.PostForm.Get("description")
+	form := &models.Recommendation{
+		ID:          0,
+		Title:       r.PostForm.Get("title"),
+		Description: r.PostForm.Get("description"),
+		FieldErrors: map[string]string{},
+	}
 
-	app.InfoLog.Printf("Title: %s, description: %s", title, description)
+	// Check that the title value is not blank and is not more than 100
+	// characters long. If it fails either of those checks, add a message to the // errors map using the field name as the key.
+	if strings.TrimSpace(form.Title) == "" {
+		form.FieldErrors["title"] = "This field cannot be blank"
+	} else if utf8.RuneCountInString(form.Title) > 100 {
+		form.FieldErrors["title"] = "This field cannot be more than 100 characters long"
+	}
 
-	id, err := app.Recoms.Insert(title, description)
+	// Check that the Content value isn't blank.
+	if strings.TrimSpace(form.Description) == "" {
+		form.FieldErrors["description"] = "This field cannot be blank"
+	}
+
+	// If there are any validation errors re-display the create.tmpl template,
+	// passing in the snippetCreateForm instance as dynamic data in the Form
+	// field. Note that we use the HTTP status code 422 Unprocessable Entity
+	// when sending the response to indicate that there was a validation error.
+	if len(form.FieldErrors) > 0 {
+		data := app.newTemplateData(r)
+		data.RecomForm = &RecomForm{Results: form}
+		app.render(w, http.StatusUnprocessableEntity, "recommend.html", data)
+		return
+	}
+
+	id, err := app.Recoms.Insert(form.Title, form.Description)
 	if err != nil {
 		app.serverError(w, err)
 		return
