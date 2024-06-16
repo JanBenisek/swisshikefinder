@@ -2,6 +2,8 @@
 border-box means that padding and border are included in width and height
 
 html and body adjusted to use grid, source: https://css-tricks.com/couple-takes-sticky-footer/
+
+Not gonna lie, most of this comes from ChatGPT...yeah I know, don't judge me.
 */
 html {
   box-sizing: border-box; 
@@ -315,4 +317,102 @@ main {
   border: 1px solid #ddd;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
+}
+
+/* Recommendations page */
+.recomend {
+  text-align: center;
+  padding: 2rem;
+}
+
+.recomend h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.recomend p {
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.recommend-table {
+  width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+}
+
+.recommend-table th, .recommend-table td {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+}
+
+.recommend-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  color: #333;
+}
+
+.recommend-table td {
+  background-color: #fff;
+  height: 40px; /* Match the height of input text in the form */
+  vertical-align: middle;
+}
+
+.recommend-form-container {
+  max-width: 400px; /* Set the form container width */
+  margin: 0 auto; /* Center the form container */
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.recommend-form div {
+  margin-bottom: 15px;
+}
+
+.recommend-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.recommend-form input[type='text'],
+.recommend-form textarea {
+  width: calc(100% - 22px); /* Adjust for border and padding */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.recommend-form textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+.recommend-form input[type='submit'] {
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #28a745;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.recommend-form input[type='submit']:hover {
+  background-color: #218838;
 }

@@ -20,7 +20,7 @@ type TourPicture struct {
 	PictureURL string
 }
 
-// Define a SnippetModel type which wraps a sql.DB connection pool.
+// Define a ToursModel type which wraps a sql.DB connection pool.
 type TourModels struct {
 	DB *sql.DB
 }

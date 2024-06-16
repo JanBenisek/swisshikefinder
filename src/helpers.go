@@ -25,9 +25,9 @@ func (app *application) serverError(w http.ResponseWriter, err error) {
 // to the user. We'll use this later in the book to send responses like 400 "Bad
 // Request" when there's a problem with the request that the user sent.
 
-// func (app *application) clientError(w http.ResponseWriter, status int) {
-// 	http.Error(w, http.StatusText(status), status)
-// }
+func (app *application) clientError(w http.ResponseWriter, status int) {
+	http.Error(w, http.StatusText(status), status)
+}
 
 // For consistency, we'll also implement a notFound helper. This is simply a
 // convenience wrapper around clientError which sends a 404 Not Found response to
@@ -54,12 +54,17 @@ type Tour struct {
 	Result *models.Tour // this will be a pointer
 }
 
+type Recom struct {
+	Results []*models.Recommendation // this will be a pointer
+}
+
 // Struct that holds all data passed to the template
 type templateData struct {
 	CurrentYear int
 	Search      *Search
 	Home        *Home
 	Tour        *Tour
+	Recom       *Recom
 }
 
 func (s *Search) IsLastPage() bool {

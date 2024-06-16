@@ -1,8 +1,10 @@
 CREATE SCHEMA bronze;
 CREATE SCHEMA gold;
 CREATE SCHEMA silver;
+CREATE SCHEMA recommendations;
 
-
+CREATE SEQUENCE rec_id_seq START 1;
+CREATE TABLE recommendations.tours(id INTEGER DEFAULT nextval('rec_id_seq'), "title" VARCHAR, "description" VARCHAR, created_at TIMESTAMP);
 
 CREATE TABLE gold.tours(ID UUID, record_type VARCHAR, "name" VARCHAR, abstract VARCHAR, part_of_trip_id UUID, url_mysw VARCHAR, lat DOUBLE, lon DOUBLE, elevation BIGINT, logo_url VARCHAR, stage VARCHAR, requirements_technical VARCHAR, requirements_endurance VARCHAR, route_category VARCHAR, url_swmo VARCHAR, season VARCHAR, distance BIGINT, duration BIGINT, duration_reverse_direction BIGINT, ascent BIGINT, descent BIGINT, barrier_free BOOLEAN);
 CREATE TABLE gold.tour_classification(ID UUID, context VARCHAR, "name" VARCHAR, classification VARCHAR);

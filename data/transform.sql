@@ -8,6 +8,7 @@
 create schema if not exists bronze;
 create schema if not exists silver;
 create schema if not exists gold;
+create schema if not exists recommendations;
 
 create view if not exists bronze.tours as select * from read_json('/Users/janbenisek/GithubRepos/swisshikefinder/data/raw_data/tours_data.json');
 -- create view if not exists bronze.destinations as select * from read_json('/Users/janbenisek/GithubRepos/swisshikefinder/data/raw_data/destinations_data.json');
@@ -157,6 +158,17 @@ with btbl as (
 select
     b.*
 from btbl b;
+
+
+/* ============== RECOMMENDATIONS ============== */
+--drop table recommendations.tours
+CREATE SEQUENCE rec_id_seq START 1;
+CREATE TABLE recommendations.tours(id INTEGER DEFAULT nextval('rec_id_seq'), "title" VARCHAR, "description" VARCHAR, created_at TIMESTAMP, expires_at TIMESTAMP);
+
+--insert into recommendations.tours (title, description, created_at, expires_at) 
+--values('foo', 'long description', current_timestamp, current_timestamp + interval 3 day) RETURNING id;
+
+--select * from recommendations.tours
 
 
 /* ============== EXPPORT DB ============== */

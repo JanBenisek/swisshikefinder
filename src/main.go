@@ -45,6 +45,7 @@ type application struct {
 	ErrorLog      *log.Logger
 	Port          string
 	Tours         *models.TourModels
+	Recoms        *models.RecModels
 	templateCache map[string]*template.Template
 }
 
@@ -73,6 +74,7 @@ func main() {
 		DebugLog:      DebugLog,
 		ErrorLog:      ErrorLog,
 		Tours:         &models.TourModels{DB: db},
+		Recoms:        &models.RecModels{DB: db},
 		templateCache: templateCache,
 	}
 
