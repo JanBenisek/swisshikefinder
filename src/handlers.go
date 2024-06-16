@@ -3,6 +3,7 @@ package main //belongs to the main package
 import (
 	// embed static files in the binary
 	"errors"
+	"fmt"
 	"math"
 	"net/http" // webserver
 	"net/url"  // access os stuff
@@ -174,4 +175,53 @@ func (app *application) tourView(w http.ResponseWriter, r *http.Request) {
 	app.render(w, http.StatusOK, "tour.html", data)
 
 	app.InfoLog.Printf("Tour request finished")
+}
+
+func (app *application) recommendView(w http.ResponseWriter, r *http.Request) {
+	// Let user recommend a hike or tour or whatever
+
+	app.InfoLog.Printf("Serving /recommend GET endpoint")
+
+	recom, err := app.Recoms.GetAll()
+	if err != nil {
+		if errors.Is(err, models.ErrNoRecord) {
+			app.notFound(w)
+		} else {
+			app.serverError(w, err)
+		}
+		return
+	}
+	data := app.newTemplateData(r)
+	data.Recom = &Recom{Results: recom}
+
+	app.render(w, http.StatusOK, "recommend.html", data)
+
+	app.InfoLog.Printf("Recommend request finished")
+}
+
+func (app *application) recommendPost(w http.ResponseWriter, r *http.Request) {
+	// Let user recommend a hike or tour or whatever
+
+	app.InfoLog.Printf("Serving /recommend POST endpoint")
+
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	title := r.PostForm.Get("title")
+	description := r.PostForm.Get("description")
+
+	app.InfoLog.Printf("Title: %s, description: %s", title, description)
+
+	id, err := app.Recoms.Insert(title, description)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	app.InfoLog.Printf("Recommend request finished with ID: %d", id)
+
+	http.Redirect(w, r, fmt.Sprintf("/recommend"), http.StatusSeeOther)
 }

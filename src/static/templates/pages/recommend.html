@@ -1,0 +1,42 @@
+{{define "content"}}
+<div class="recomend">
+  <h2>Recommendations from other Hikers</h2>
+  <p>Share your ideas for amazing hiking destinations.</p>
+</div>
+<section class="container">
+  {{ if .Recom.Results }}
+  <table class="recommend-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ range .Recom.Results }}
+      <tr>
+        <td>{{ .Title }}</td>
+        <td>{{ .Description }}</td>
+      </tr>
+      {{ end }}
+    </tbody>
+  </table>
+  {{ end }}
+
+  <div class="recommend-form-container">
+    <form action='/recommend' method='POST' class='recommend-form'>
+      <div>
+        <label>Title:</label>
+        <input type='text' name='title'>
+      </div> 
+      <div>
+        <label>Description:</label>
+        <textarea name='description'></textarea> 
+      </div>
+      <div>
+        <input type='submit' value='Publish snippet'> 
+      </div>
+    </form>
+  </div>
+</section>
+{{end}}
