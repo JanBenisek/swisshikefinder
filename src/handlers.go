@@ -3,7 +3,6 @@ package main //belongs to the main package
 import (
 	// embed static files in the binary
 	"errors"
-	"fmt"
 	"math"
 	"net/http" // webserver
 	"net/url"  // access os stuff
@@ -223,5 +222,5 @@ func (app *application) recommendPost(w http.ResponseWriter, r *http.Request) {
 
 	app.InfoLog.Printf("Recommend request finished with ID: %d", id)
 
-	http.Redirect(w, r, fmt.Sprintf("/recommend"), http.StatusSeeOther)
+	http.Redirect(w, r, "/recommend", http.StatusSeeOther)
 }
